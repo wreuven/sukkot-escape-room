@@ -114,6 +114,7 @@ LOCK_PAGE = r"""<!DOCTYPE html>
 PAGES = [
     ('src/game.html', 'docs/index.html'),      # game 1: escape room
     ('src/puzzles.html', 'docs/puzzles.html'),  # game 2: thinking puzzles (linked from game 1's victory screen)
+    ('src/puzzles-v2.html', 'docs/puzzles-v2.html'),  # game 2, improved version for review
 ]
 
 

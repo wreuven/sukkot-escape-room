@@ -2,18 +2,21 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&family=Rubik:wght@500;700;900&display=swap" rel="stylesheet">
 <title>צופן הסוכה — חידות חשיבה</title>
 <style>
 :root{--ink:#253831;--muted:#69786f;--paper:#fffaf0;--green:#1d6244;--gold:#d8ae53;--red:#b64c3b;--shadow:0 16px 46px rgba(45,57,46,.14)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;min-height:100%;font-family:Arial,"Noto Sans Hebrew",Inter,ui-rounded,"SF Pro Rounded",system-ui,-apple-system,"Segoe UI",sans-serif;direction:rtl;background:radial-gradient(circle at 50% -20%,#fffdf7 0,#efe4ca 72%,#e3d4b5 100%);color:var(--ink)}
+html,body{margin:0;min-height:100%;font-family:Heebo,Arial,"Noto Sans Hebrew",system-ui,-apple-system,"Segoe UI",sans-serif;direction:rtl;background:radial-gradient(circle at 50% -20%,#fffdf7 0,#efe4ca 72%,#e3d4b5 100%);color:var(--ink)}
 body{padding:14px;display:flex;justify-content:center}
-button{font:inherit}.app{width:min(1120px,100%);display:flex;flex-direction:column;gap:10px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{display:flex;align-items:center;gap:10px;font-weight:950;letter-spacing:-.025em}.brandMark{width:43px;height:43px;border-radius:13px;background:linear-gradient(145deg,#174d36,#2b7952);color:white;display:grid;place-items:center;box-shadow:0 7px 20px rgba(30,96,67,.2)}
-.topRight{display:flex;align-items:center;gap:8px}.pill{background:rgba(255,255,255,.78);border:1px solid rgba(34,53,47,.1);border-radius:999px;padding:8px 11px;font-size:12px;font-weight:900;white-space:nowrap}.tokens{display:flex;align-items:center;gap:5px}.token{width:18px;height:18px;border-radius:50%;background:var(--gold);border:2px solid #8e7132;box-shadow:inset 0 1px 0 rgba(255,255,255,.7)}.token.spent{background:#d8d3c8;border-color:#aaa49a;opacity:.55}
-.progress{height:8px;background:rgba(34,53,47,.1);border-radius:99px;overflow:hidden}.progress>i{height:100%;display:block;background:linear-gradient(90deg,#1f6949,#a69443);width:0;transition:.3s}.card{background:rgba(255,250,240,.96);border:2px solid rgba(34,53,47,.08);border-radius:24px;box-shadow:var(--shadow);overflow:hidden}.prompt{text-align:center;padding:14px 18px 8px}.kicker{font-size:11px;font-weight:950;letter-spacing:.14em;color:#78867f;text-transform:uppercase}.prompt h1{margin:4px 0 0;font-size:clamp(23px,3vw,34px);line-height:1.08;letter-spacing:-.035em}.prompt p{margin:7px auto 0;max-width:760px;color:var(--muted);font-size:14px;font-weight:700;line-height:1.4}
-.sceneWrap{padding:8px 12px 12px}.scene{position:relative;border-radius:19px;overflow:hidden;border:2px solid rgba(34,53,47,.12);background:#d9eceb;aspect-ratio:16/9;min-height:470px;touch-action:none;user-select:none}.scene svg{width:100%;height:100%;display:block;touch-action:none}.scene::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 70px rgba(31,53,41,.06);pointer-events:none}.footer{display:flex;justify-content:space-between;align-items:center;gap:10px}.group{display:flex;gap:7px}.btn{border:2px solid rgba(34,53,47,.1);background:white;border-radius:13px;padding:9px 13px;font-weight:900;cursor:pointer;box-shadow:0 5px 16px rgba(34,53,47,.07)}.btn.primary{background:var(--green);color:white;border-color:transparent}.btn.hint{background:#f5df95}.btn:disabled{opacity:.38;cursor:not-allowed}.hintRow{min-height:54px;padding:0 12px 12px;display:flex;gap:10px;justify-content:center;align-items:center}.hintText{display:none;background:#fff1ba;border:2px solid #d5ab4d;border-radius:13px;padding:8px 12px;max-width:760px;font-weight:800;font-size:13px}.hintText.show{display:block;animation:pop .18s ease}.toast{position:absolute;left:50%;bottom:18px;transform:translate(-50%,12px);opacity:0;background:rgba(28,39,34,.91);color:white;padding:8px 12px;border-radius:999px;font-weight:850;font-size:12px;transition:.18s;z-index:20;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}
-.correctNote{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:16;width:min(620px,88%);background:rgba(255,253,246,.96);border:3px solid #2c8057;border-radius:20px;padding:17px 22px;box-shadow:0 18px 46px rgba(31,53,41,.22);text-align:center;animation:popCenter .24s cubic-bezier(.2,.9,.2,1.2)}.correctNote strong{display:block;font-size:27px;color:#236844;margin-bottom:5px}.correctNote p{margin:0;color:#4f6258;font-weight:800;line-height:1.35}.correctTick{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;margin:0 auto 7px;background:#2c8057;color:white;font-size:31px;font-weight:1000}.footer .primary{display:none}.correctNote .noteNext{margin-top:12px;display:inline-flex;align-items:center;gap:8px}@keyframes popCenter{from{opacity:0;transform:translate(-50%,-50%) scale(.9)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+button{font:inherit}.app{width:min(1120px,100%);display:flex;flex-direction:column;gap:10px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{display:flex;align-items:center;gap:10px;font-weight:900;font-family:Rubik,Heebo,Arial,sans-serif}.brandMark{width:43px;height:43px;border-radius:13px;background:linear-gradient(145deg,#174d36,#2b7952);color:white;display:grid;place-items:center;box-shadow:0 7px 20px rgba(30,96,67,.2)}
+.topRight{display:flex;align-items:center;gap:8px}.pill{background:rgba(255,255,255,.78);border:1px solid rgba(34,53,47,.1);border-radius:999px;padding:8px 12px;font-size:13px;font-weight:900;white-space:nowrap}.tokens{display:flex;align-items:center;gap:5px}.token{width:18px;height:18px;border-radius:50%;background:var(--gold);border:2px solid #8e7132;box-shadow:inset 0 1px 0 rgba(255,255,255,.7)}.token.spent{background:#d8d3c8;border-color:#aaa49a;opacity:.55}
+.progress{height:8px;background:rgba(34,53,47,.1);border-radius:99px;overflow:hidden}.progress>i{height:100%;display:block;background:linear-gradient(90deg,#1f6949,#a69443);width:0;transition:.3s}.card{background:rgba(255,250,240,.96);border:2px solid rgba(34,53,47,.08);border-radius:24px;box-shadow:var(--shadow);overflow:hidden}.prompt{text-align:center;padding:14px 18px 8px}.kicker{font-size:13px;font-weight:800;color:#6d7b74}.prompt h1{margin:4px 0 0;font-family:Rubik,Heebo,Arial,sans-serif;font-weight:900;font-size:clamp(24px,3vw,34px);line-height:1.2}.prompt p{margin:7px auto 0;max-width:760px;color:var(--muted);font-size:16px;font-weight:600;line-height:1.5}
+.sceneWrap{padding:8px 12px 12px}.scene{position:relative;border-radius:19px;overflow:hidden;border:2px solid rgba(34,53,47,.12);background:#d9eceb;aspect-ratio:16/9;touch-action:pan-y;user-select:none}.scene svg{width:100%;height:100%;display:block;touch-action:pan-y}.scene::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 70px rgba(31,53,41,.06);pointer-events:none}.footer{display:flex;justify-content:space-between;align-items:center;gap:10px}.group{display:flex;gap:7px}.btn{border:2px solid rgba(34,53,47,.1);background:white;border-radius:13px;padding:11px 16px;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 5px 16px rgba(34,53,47,.07)}.btn.primary{background:var(--green);color:white;border-color:transparent}.btn.hint{background:#f5df95}.btn:disabled{opacity:.38;cursor:not-allowed}.hintRow{min-height:54px;padding:0 12px 12px;display:flex;gap:10px;justify-content:center;align-items:center}.hintText{display:none;background:#fff1ba;border:2px solid #d5ab4d;border-radius:13px;padding:10px 14px;max-width:760px;font-weight:700;font-size:15px;line-height:1.45}.hintText.show{display:block;animation:pop .18s ease}.toast{position:absolute;left:50%;bottom:18px;transform:translate(-50%,12px);opacity:0;background:rgba(28,39,34,.91);color:white;padding:9px 14px;border-radius:999px;font-weight:800;font-size:14px;transition:.18s;z-index:20;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}
+.correctNote{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:16;width:min(620px,88%);background:rgba(255,253,246,.96);border:3px solid #2c8057;border-radius:20px;padding:17px 22px;box-shadow:0 18px 46px rgba(31,53,41,.22);text-align:center;animation:popCenter .24s cubic-bezier(.2,.9,.2,1.2)}.correctNote strong{display:block;font-size:27px;color:#236844;margin-bottom:5px}.correctNote p{margin:0;color:#4f6258;font-weight:800;line-height:1.35}.correctTick{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;margin:0 auto 7px;background:#2c8057;color:white;font-size:31px;font-weight:1000}.footer .primary{display:none}.correctNote .noteNext{margin-top:12px;display:inline-flex;align-items:center;gap:8px}.endStats{margin:10px 0 16px;font-weight:800;color:#3f5a4c;font-size:17px}.rotateTip{display:none;text-align:center;font-size:14px;font-weight:700;color:#5b6b62;background:#fff6d6;border:1px solid #e3cf8f;border-radius:12px;padding:8px 10px}@keyframes popCenter{from{opacity:0;transform:translate(-50%,-50%) scale(.9)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
 
 .fireworks{position:absolute;inset:0;z-index:14;overflow:hidden;pointer-events:all;background:radial-gradient(circle at 50% 55%,rgba(255,248,218,.16),rgba(17,39,30,.08))}
 .fireworkBurst{position:absolute;width:1px;height:1px;animation:burstFlash 1.05s ease-out infinite;animation-delay:var(--delay)}
@@ -23,13 +26,15 @@ button{font:inherit}.app{width:min(1120px,100%);display:flex;flex-direction:colu
 @keyframes coreFlash{0%,8%{opacity:0;transform:scale(.2)}14%{opacity:1;transform:scale(1.2)}55%,100%{opacity:0;transform:scale(.3)}}
 @keyframes burstFlash{0%,100%{opacity:1}}
 @keyframes pop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
-@media(max-width:760px){body{padding:7px}.brand span{display:none}.scene{min-height:560px;aspect-ratio:auto}.prompt{padding:11px 10px 7px}.prompt h1{font-size:24px}.prompt p{font-size:13px}.pill{font-size:10px;padding:7px 9px}.btn{padding:8px 10px}}
+@media(max-width:760px){body{padding:7px}.brand span{display:none}.prompt{padding:11px 10px 7px}.prompt h1{font-size:23px}.prompt p{font-size:15px}.pill{font-size:12px;padding:7px 10px}.btn{padding:10px 12px}}
+@media(max-width:760px) and (orientation:portrait){.rotateTip{display:block}}
 </style>
 </head>
 <body>
 <div class="app">
-  <div class="top"><div class="brand"><div class="brandMark">🌿</div><span>צופן הסוכה — חידות חשיבה</span></div><div class="topRight"><div class="pill tokens" id="tokens"></div><div class="pill" id="count">חידה 1 מתוך 6</div></div></div>
+  <div class="top"><div class="brand"><div class="brandMark"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M5 19c0-8 5-14 14-15-1 9-7 14-15 14" fill="#bfe3c8"/><path d="M5 19c3-4 6-7 10-9" stroke="#174d36" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div><span>צופן הסוכה — חידות חשיבה</span></div><div class="topRight"><div class="pill tokens" id="tokens" title="רמזים שנותרו" aria-label="רמזים שנותרו"></div><div class="pill" id="count">חידה 1 מתוך 6</div></div></div>
   <div class="progress"><i id="progress"></i></div>
+  <div class="rotateTip">טיפ: סובבו את הטלפון לרוחב כדי לראות את החידות בגדול.</div>
   <main class="card">
     <div class="prompt"><div class="kicker" id="kicker"></div><h1 id="title"></h1><p id="subtitle"></p></div>
     <div class="sceneWrap"><div class="scene" id="scene"></div></div>
@@ -42,7 +47,7 @@ button{font:inherit}.app{width:min(1120px,100%);display:flex;flex-direction:colu
 const NS='http://www.w3.org/2000/svg';
 const scene=document.getElementById('scene'),title=document.getElementById('title'),subtitle=document.getElementById('subtitle'),kicker=document.getElementById('kicker'),count=document.getElementById('count'),progress=document.getElementById('progress'),tokens=document.getElementById('tokens'),hintBtn=document.getElementById('hintBtn'),hintText=document.getElementById('hintText'),prev=document.getElementById('prev'),reset=document.getElementById('reset'),next=document.getElementById('next');
 const requested=Number(new URLSearchParams(location.search).get('level'));
-let level=Number.isInteger(requested)&&requested>=0&&requested<6?requested:0,solved=false,hintsLeft=3,hintSeen=[0,0,0,0,0,0],toastTimer=null;
+let level=Number.isInteger(requested)&&requested>=0&&requested<6?requested:0,solved=false,hintsLeft=3,hintSeen=[0,0,0,0,0,0],toastTimer=null,startTime=Date.now();
 const sectionNames=[
 'שער הכוונה ומשמעות החג',
 'מעבדת הנדסת הכותלים והדפנות',
@@ -53,8 +58,8 @@ const sectionNames=[
 ];
 const puzzles=[
 {title:'גרמו לכך שיהיה ברור שהסוכה נבנתה לשם המצווה.',sub:'אפשר לנסות להזיז ולגרור כל דבר שרואים.',h:['חפשו משהו בסצנה שמשתנה עם הזמן.','אותה סוכה יכולה לקבל משמעות אחרת בחודש אחר.','נסו להסיר את דפי לוח השנה בזה אחר זה.']},
-{title:'הסוכה הזאת אינה עוברת את הבדיקה.',sub:'תקנו את הבעיה בתרשים.',h:['מה עוד אפשר להזיז?']},
-{title:'גם זה לא כשרה.',sub:'',h:['יש בסכך כמה רווחים ברורים.','אחד מהחפצים מתאים בדיוק לחומר שכבר נמצא על הגג.','הוסיפו עוד שלבי סכך עד שיהיה מספיק צל.']},
+{title:'הסוכה הזאת אינה עוברת את הבדיקה.',sub:'תקנו את הבעיה בתרשים.',h:['מה עוד אפשר להזיז?','רווח קטן משלושה טפחים (24 ס״מ) נחשב סתום — "לבוד".','גררו את הדופן האחורית למטה, קרוב יותר לקרקע.']},
+{title:'גם הסוכה הזאת אינה כשרה.',sub:'',h:['יש בסכך כמה רווחים ברורים.','אחד מהחפצים מתאים בדיוק לחומר שכבר נמצא על הגג.','הוסיפו שלבי סכך עד שהצל יהיה רב מהשמש — יותר מחצי.']},
 {title:'הסוכה נראית גמורה — אבל עדיין פסולה.',sub:'תקנו את אופן הבנייה.',h:['הבעיה אינה בחומרים. הבעיה היא בסדר.','קודם העמידו את שלוש הדפנות. אחר כך עדיין צריך לעשות משהו עם מה שמעליהן.','אחרי שכל שלוש הדפנות עומדות, הרימו את הסכך והניחו אותו מחדש.']},
 {title:'מיקום בעייתי',sub:'אגודת הלולב כמעט נכונה.',h:['אל תאריכו את הלולב.','המדידה היא יחסית.','הנמיכו את ההדסים והערבות.']},
 {title:'גרמו לכך שכולם ינהגו כהלכה.',sub:'לא כל מי שבסצנה זקוק לאותו דבר.',h:['לא צריך להזיז את כולם.','שני אנשים צריכים את הסוכה; שניים כבר נוהגים נכון.','שנו את גבול הסוכה במקום להזיז את האנשים.']}
@@ -62,7 +67,7 @@ const puzzles=[
 function S(tag,attrs={},parent){const e=document.createElementNS(NS,tag);for(const [k,v] of Object.entries(attrs)){if(k==='text')e.textContent=v;else e.setAttribute(k,v)}if(parent)parent.appendChild(e);return e}
 function g(root,attrs={}){return S('g',attrs,root)}
 function rect(root,x,y,w,h,fill,extra={}){return S('rect',{x,y,width:w,height:h,fill,...extra},root)}
-function text(root,x,y,t,size=24,extra={}){return S('text',{x,y,text:t,'font-family':'Arial, Noto Sans Hebrew, sans-serif','font-size':size,fill:'#253831',direction:'rtl','unicode-bidi':'plaintext',...extra},root)}
+function text(root,x,y,t,size=24,extra={}){return S('text',{x,y,text:t,'font-family':'Heebo, Arial, Noto Sans Hebrew, sans-serif','font-size':size,fill:'#253831',direction:'rtl','unicode-bidi':'plaintext',...extra},root)}
 function use(root,id,x,y,w,h,extra={}){return S('use',{href:'#'+id,x,y,width:w,height:h,...extra},root)}
 function img(root,file,x,y,w,h,extra={}){return S('image',{href:'assets/'+file,x,y,width:w,height:h,preserveAspectRatio:'xMidYMid meet',...extra},root)}
 function injectDefs(defs){
@@ -221,9 +226,12 @@ function drawLooseSlat(root,x,y,w=22,h=68){const gr=g(root);rect(gr,x,y,w,h,'url
 function groundBand(root,y=438){const gg=g(root);S('path',{d:`M0 ${y} Q180 ${y-13} 340 ${y} T680 ${y-7} T1000 ${y-2} V562 H0Z`,fill:'#82995f',stroke:'#557348','stroke-width':5},gg);S('path',{d:`M0 ${y+25}q180-14 360 0t360 0t280-3`,stroke:'#6e784f','stroke-width':5,fill:'none',opacity:.5},gg);return gg}
 function toast(msg){clearTimeout(toastTimer);let t=scene.querySelector('.toast');if(!t){t=document.createElement('div');t.className='toast';scene.appendChild(t)}t.textContent=msg;t.classList.add('show');toastTimer=setTimeout(()=>t.classList.remove('show'),1250)}
 function finishGame(){
-  scene.innerHTML='<div style="position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(180deg,#d8efed,#f5edcf)"><div style="text-align:center"><div style="font-size:76px">🌿</div><h2 style="font-size:42px;margin:4px 0">חג שמח!</h2><p style="font-weight:850;color:#64736b">פתרתם את כל שש החידות.</p></div></div>';
+  const secs=Math.round((Date.now()-startTime)/1000),mm=String(Math.floor(secs/60)).padStart(2,'0'),ss=String(secs%60).padStart(2,'0');
+  scene.innerHTML=`<div style="position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(180deg,#d8efed,#f5edcf)"><div style="text-align:center;padding:12px"><div style="width:84px;height:84px;margin:0 auto">${LEAF_SVG}</div><h2 style="font-family:Rubik,Heebo,Arial,sans-serif;font-size:42px;margin:4px 0">חג שמח!</h2><p style="font-weight:800;color:#64736b;margin:0">פתרתם את כל שש החידות.</p><p class="endStats">זמן: ${mm}:${ss} · רמזים: ${3-hintsLeft} מתוך 3</p><button class="btn primary" id="playAgain" style="display:inline-block">שחקו שוב</button></div></div>`;
+  scene.querySelector('#playAgain').onclick=()=>{level=0;hintsLeft=3;hintSeen=[0,0,0,0,0,0];startTime=Date.now();render()};
   progress.style.width='100%';title.textContent='הבריחה הושלמה';subtitle.textContent='';kicker.textContent='';hintBtn.disabled=true;prev.disabled=false;
 }
+const LEAF_SVG='<svg viewBox="0 0 24 24" width="100%" height="100%" aria-hidden="true"><path d="M5 19c0-8 5-14 14-15-1 9-7 14-15 14" fill="#8fcf9f"/><path d="M5 19c3-4 6-7 10-9" stroke="#174d36" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>';
 let successAudioCtx=null;
 function playSuccessTune(){
   try{
@@ -304,13 +312,14 @@ function p1(){
 
 // PUZZLE 2 — balance the rear wall so both gaps are inside lavud
 function p2(){
-  const svg=baseSvg();landscape(svg);text(svg,500,43,'תרשים בדיקה',16,{'font-weight':950,'text-anchor':'middle',fill:'#78867e','letter-spacing':2});
+  const svg=baseSvg();landscape(svg);text(svg,500,43,'תרשים בדיקה',17,{'font-weight':800,'text-anchor':'middle',fill:'#78867e'});
   const geo=makeSukkahGeo({cx:490,frontW:590,backW:355,groundFront:456,groundBack:430,roofFrontY:178,roofBackY:108,wallTopFront:191,wallTopBack:120});
   groundBand(svg,geo.groundFront);
 
-  // The rear panel begins 35 cm above the ground. The total free clearance around it is 40 cm,
-  // so there is a narrow valid band where BOTH the upper and lower gaps are less than 22.8 cm.
-  const startBottomCm=35,startTopCm=5,totalCm=startBottomCm+startTopCm;
+  // The rear panel begins 35 cm above the ground. It is kosher once the gap from the ground is
+  // under 3 tefachim (24 cm, lavud). The gap up to the schach doesn't matter: a wall 10 tefachim
+  // tall is kosher even if it doesn't reach the schach (gud asik), so that gap is shown for information only.
+  const LAVUD_CM=24,startBottomCm=35,startTopCm=5,totalCm=startBottomCm+startTopCm;
   const gapPx=84,pxPerCm=gapPx/startBottomCm,maxOff=gapPx;
   const wallLayer=g(svg);drawPerspectiveWall(wallLayer,wallPoints(geo,'left'));drawPerspectiveWall(wallLayer,wallPoints(geo,'right'));
   const rearBase=wallPoints(geo,'back',{gap:gapPx}),rearWall=drawPerspectiveWall(wallLayer,rearBase);rearWall.style.cursor='ns-resize';rearWall.style.touchAction='none';
@@ -323,33 +332,33 @@ function p2(){
     return {bottom:Math.max(0,startBottomCm-movedCm),top:Math.max(0,startTopCm+movedCm)};
   }
   function arrow(y1,y2,labelText,which,ok){
-    const col=ok?'#28734e':'#b64c3b',x=mx;
+    const col=ok===null?'#7b857f':ok?'#28734e':'#b64c3b',x=mx;
     S('line',{x1:x,y1,x2:x,y2,stroke:col,'stroke-width':5},measure);S('line',{x1:x-15,y1,x2:x+15,y2:y1,stroke:col,'stroke-width':5},measure);S('line',{x1:x-15,y1:y2,x2:x+15,y2,stroke:col,'stroke-width':5},measure);
-    const cy=(y1+y2)/2;rect(measure,x-142,cy-23,108,46,'#fff9ec',{rx:11,stroke:col,'stroke-width':4});text(measure,x-88,cy+8,labelText,21,{'font-weight':950,'text-anchor':'middle',fill:col});text(measure,x+8,cy+5,which,11,{'font-weight':850,fill:'#6e776f'});
+    const cy=(y1+y2)/2;rect(measure,x-156,cy-31,136,62,'#fff9ec',{rx:11,stroke:col,'stroke-width':4});text(measure,x-88,cy+2,labelText,21,{'font-weight':900,'text-anchor':'middle',fill:col});text(measure,x-88,cy+21,which,11,{'font-weight':700,fill:'#6e776f','text-anchor':'middle'});
   }
   function renderMeasure(off=wallOff){
     clearMeasure();
     const {bottom,top}=gapValues(off);
     const bottomY=geo.groundBack-gapPx+off,groundY=geo.groundBack;
     const topY=geo.wall.blTop.y+off,roofY=geo.roof.bl.y;
-    arrow(bottomY,groundY,bottom.toFixed(1)+' ס״מ','פער תחתון',bottom<22.8);
-    arrow(roofY,topY,top.toFixed(1)+' ס״מ','פער עליון',top<22.8);
+    arrow(bottomY,groundY,bottom.toFixed(1)+' ס״מ','פער מהקרקע',bottom<LAVUD_CM);
+    arrow(roofY,topY,top.toFixed(1)+' ס״מ','פער מהסכך (לא פוסל)',null);
   }
   renderMeasure();
 
-  // The wall follows the pointer continuously. It only solves when released with BOTH gaps < 22.8 cm.
+  // The wall follows the pointer continuously. It solves when released with the ground gap under 24 cm.
   drag(rearWall,{start:()=>{dragStartOff=wallOff},move:(e,dx,dy)=>{
     wallOff=Math.max(0,Math.min(maxOff,dragStartOff+dy));
     rearWall.setAttribute('transform',`translate(0 ${wallOff})`);
     renderMeasure(wallOff);
   },end:()=>{
     const {bottom,top}=gapValues(wallOff);
-    if(bottom<22.8&&top<22.8){
+    if(bottom<LAVUD_CM){
       const a=rearWall.animate([{transform:`translateY(${wallOff}px)`},{transform:`translateY(${wallOff+4}px)`},{transform:`translateY(${wallOff}px)`}],{duration:260,easing:'ease-out'});
       a.onfinish=()=>rearWall.setAttribute('transform',`translate(0 ${wallOff})`);
-      setTimeout(()=>success(`שני הרווחים קטנים עכשיו מ־22.8 ס״מ: ${bottom.toFixed(1)} ס״מ למטה ו־${top.toFixed(1)} ס״מ למעלה.`),180);
+      setTimeout(()=>success(`הרווח מהקרקע הוא עכשיו ${bottom.toFixed(1)} ס״מ — פחות משלושה טפחים, ולכן הוא נחשב סתום (לבוד). הרווח שמעל הדופן אינו פוסל: דופן בגובה עשרה טפחים כשרה גם כשאינה מגיעה לסכך.`),180);
     }else{
-      toast(bottom>=22.8?'אוי. זה פשוט רחוק מדי מלמטה.':'אוי. זה פשוט רחוק מדי מלמעלה.');
+      toast('הרווח מהקרקע עדיין גדול משלושה טפחים.');
     }
   }});
 }
@@ -360,9 +369,9 @@ function p3(){
   const walls=g(svg);['left','back','right'].forEach(k=>drawPerspectiveWall(walls,wallPoints(geo,k)));drawPerspectivePosts(svg,geo);
   const slots=12,initial=[0,2,4,6,8,10],filled=new Set(initial);const roof=drawPerspectiveRoof(svg,geo,{slots,filled:initial,idPrefix:'p3'});
   const meter=g(svg);rect(meter,778,66,180,116,'#fffaf0',{rx:14,stroke:'#7d6c4a','stroke-width':4});text(meter,868,93,'צל',14,{'font-weight':950,'text-anchor':'middle',fill:'#74786b'});const pct=text(meter,868,135,'42%',38,{'font-weight':950,'text-anchor':'middle'});rect(meter,803,153,130,11,'#d5d6d0',{rx:6});const meterFill=rect(meter,803,153,55,11,'#d6ae4d',{rx:6});
-  let shade=42,added=0;function updateShade(){shade=42+added*7;pct.textContent=shade+'%';meterFill.setAttribute('width',130*shade/100);pct.setAttribute('fill',shade>=60&&shade<=85?'#28734e':'#253831')}
+  let shade=42,added=0;function updateShade(){shade=42+added*7;pct.textContent=shade+'%';meterFill.setAttribute('width',130*shade/100);pct.setAttribute('fill',shade>50&&shade<100?'#28734e':'#253831')}
   const tray=g(svg);rect(tray,38,458,918,86,'rgba(255,250,240,.91)',{rx:16,stroke:'#cbb991','stroke-width':3});
-  function newSpare(x){const gr=drawLooseSlat(tray,x,474,22,63);let dx=0,dy=0;drag(gr,{move:(e,a,b)=>{dx=a;dy=b;gr.setAttribute('transform',`translate(${a} ${b}) rotate(${Math.max(-8,Math.min(8,a*.025))} ${x+11} 505)`)},end:()=>{const cx=x+11+dx,cy=505+dy;const inRoof=cy>geo.roof.br.y-25&&cy<geo.roof.fr.y+32&&cx>geo.roof.fl.x-30&&cx<geo.roof.fr.x+30;if(inRoof){let best=null,bestD=1e9;for(let i=0;i<slots;i++){if(filled.has(i))continue;const c=roof.slotCenter(i),d=Math.hypot(cx-c.x,cy-c.y);if(d<bestD){bestD=d;best=i}}if(best!==null){filled.add(best);added++;const landed=drawRoofSlat(roof.group,geo,best,slots,{opacity:.18});landed.animate([{opacity:.18},{opacity:1}],{duration:260,easing:'ease-out'}).onfinish=()=>landed.setAttribute('opacity',1);gr.remove();updateShade();if(shade>=60&&shade<=85)setTimeout(()=>success(`הוספת שלבי הסכך הביאה את רמת הצל ל־${shade}%.`),280);return}}const a=gr.animate([{transform:`translate(${dx}px,${dy}px)`},{transform:'translate(0,0)'}],{duration:250,easing:'cubic-bezier(.2,.8,.2,1)'});a.onfinish=()=>gr.removeAttribute('transform')}})}
+  function newSpare(x){const gr=drawLooseSlat(tray,x,474,22,63);let dx=0,dy=0;drag(gr,{move:(e,a,b)=>{dx=a;dy=b;gr.setAttribute('transform',`translate(${a} ${b}) rotate(${Math.max(-8,Math.min(8,a*.025))} ${x+11} 505)`)},end:()=>{const cx=x+11+dx,cy=505+dy;const inRoof=cy>geo.roof.br.y-25&&cy<geo.roof.fr.y+32&&cx>geo.roof.fl.x-30&&cx<geo.roof.fr.x+30;if(inRoof){let best=null,bestD=1e9;for(let i=0;i<slots;i++){if(filled.has(i))continue;const c=roof.slotCenter(i),d=Math.hypot(cx-c.x,cy-c.y);if(d<bestD){bestD=d;best=i}}if(best!==null){filled.add(best);added++;const landed=drawRoofSlat(roof.group,geo,best,slots,{opacity:.18});landed.animate([{opacity:.18},{opacity:1}],{duration:260,easing:'ease-out'}).onfinish=()=>landed.setAttribute('opacity',1);gr.remove();updateShade();if(shade>50&&shade<100)setTimeout(()=>success(`הוספת שלבי הסכך הביאה את רמת הצל ל־${shade}% — הצל מרובה מהחמה, ולכן הסכך כשר.`),280);return}}const a=gr.animate([{transform:`translate(${dx}px,${dy}px)`},{transform:'translate(0,0)'}],{duration:250,easing:'cubic-bezier(.2,.8,.2,1)'});a.onfinish=()=>gr.removeAttribute('transform')}})}
   [78,112,146,180,214].forEach(newSpare);[['shovel',315,468,54,72],['paintbrush',455,482,92,52],['rockIcon',615,482,90,58],['umbrella',790,465,70,76]].forEach(([id,x,y,w,h])=>draggableDecoy(use(tray,id,x,y,w,h)));
 }
 
@@ -370,12 +379,12 @@ function p3(){
 function p4(){
   const svg=baseSvg();landscape(svg);const geo=makeSukkahGeo({cx:500,frontW:620,backW:370,groundFront:440,groundBack:417,roofFrontY:172,roofBackY:100,wallTopFront:185,wallTopBack:113});groundBand(svg,geo.groundFront);
   const wallLayer=g(svg);const kinds=['left','back','right'];const targets=kinds.map(kind=>({kind,pts:wallPoints(geo,kind)}));targets.forEach(t=>drawPerspectiveWall(wallLayer,t.pts,{outline:true}));drawPerspectivePosts(svg,geo);const roof=drawPerspectiveRoof(svg,geo,{slots:15,idPrefix:'p4'});
-  const tray=g(svg);rect(tray,42,454,916,90,'rgba(255,250,240,.94)',{rx:16,stroke:'#cbb991','stroke-width':3});text(tray,65,477,'שלוש דפנות',11,{'font-weight':900,fill:'#7c786d'});
+  const tray=g(svg);rect(tray,42,454,916,90,'rgba(255,250,240,.94)',{rx:16,stroke:'#cbb991','stroke-width':3});text(tray,940,477,'שלוש דפנות',13,{'font-weight':800,fill:'#7c786d'});
   let placed=0;const occupied=new Set();
   function miniPts(kind,x,y,w=170,h=60){if(kind==='back')return [{x,y:y+4},{x:x+w,y:y+4},{x:x+w,y:y+h},{x,y:y+h}];if(kind==='left')return [{x,y:y+13},{x:x+w,y},{x:x+w,y:y+h-6},{x,y:y+h}];return [{x,y},{x:x+w,y:y+13},{x:x+w,y:y+h},{x,y:y+h-6}]}
-  function makeWallPiece(kind,x){const gr=g(tray);drawPerspectiveWall(gr,miniPts(kind,x,482,150,54));let dx=0,dy=0;drag(gr,{move:(e,a,b)=>{dx=a;dy=b;gr.setAttribute('transform',`translate(${a} ${b})`)},end:()=>{const c={x:x+75+dx,y:509+dy};let choice=null,best=1e9;targets.forEach((t,i)=>{if(occupied.has(i)||t.kind!==kind)return;const tc=centerOf(t.pts),d=Math.hypot(c.x-tc.x,c.y-tc.y);if(d<best){best=d;choice=i}});if(choice!==null&&best<190){occupied.add(choice);placed++;const final=drawPerspectiveWall(wallLayer,targets[choice].pts,{opacity:.18});final.animate([{opacity:.18},{opacity:1}],{duration:240,easing:'ease-out'}).onfinish=()=>final.setAttribute('opacity',1);gr.remove();if(placed===3)toast('הכול נראה גמור…');return}const a=gr.animate([{transform:`translate(${dx}px,${dy}px)`},{transform:'translate(0,0)'}],{duration:250,easing:'cubic-bezier(.2,.8,.2,1)'});a.onfinish=()=>gr.removeAttribute('transform')}})}
+  function makeWallPiece(kind,x){const gr=g(tray);drawPerspectiveWall(gr,miniPts(kind,x,482,150,54));let dx=0,dy=0;drag(gr,{move:(e,a,b)=>{dx=a;dy=b;gr.setAttribute('transform',`translate(${a} ${b})`)},end:()=>{const c={x:x+75+dx,y:509+dy};let choice=null,best=1e9;targets.forEach((t,i)=>{if(occupied.has(i)||t.kind!==kind)return;const tc=centerOf(t.pts),d=Math.hypot(c.x-tc.x,c.y-tc.y);if(d<best){best=d;choice=i}});if(choice!==null&&best<190){occupied.add(choice);placed++;const final=drawPerspectiveWall(wallLayer,targets[choice].pts,{opacity:.18});final.animate([{opacity:.18},{opacity:1}],{duration:240,easing:'ease-out'}).onfinish=()=>final.setAttribute('opacity',1);gr.remove();if(placed===3)toast('הכול נראה גמור…');return}const a=gr.animate([{transform:`translate(${dx}px,${dy}px)`},{transform:'translate(0,0)'}],{duration:250,easing:'cubic-bezier(.2,.8,.2,1)'});a.onfinish=()=>gr.removeAttribute('transform');if(dy<-80)toast('הדופן הזאת שייכת למקום אחר.')}})}
   makeWallPiece('left',82);makeWallPiece('back',310);makeWallPiece('right',538);
-  const r=geo.roof,hit=polygon(svg,[r.fl,r.fr,r.br,r.bl],'transparent');hit.style.cursor='ns-resize';let lift=0,maxLift=0;drag(hit,{start:()=>{lift=0;maxLift=0},move:(e,dx,dy)=>{lift=Math.max(-82,Math.min(5,dy));if(lift<0)maxLift=Math.max(maxLift,-lift);roof.group.setAttribute('transform',`translate(0 ${lift})`);hit.setAttribute('transform',`translate(0 ${lift})`)},end:()=>{const qualified=placed===3&&maxLift>=35,from=lift;roof.group.animate([{transform:`translateY(${from}px)`},{transform:'translateY(4px)'},{transform:'translateY(0)'}],{duration:330,easing:'cubic-bezier(.2,.8,.2,1)'});hit.animate([{transform:`translateY(${from}px)`},{transform:'translateY(0)'}],{duration:300});setTimeout(()=>{roof.group.removeAttribute('transform');hit.removeAttribute('transform');if(qualified)success('שלוש הדפנות הועמדו תחילה, ולאחר מכן הסכך הורם והונח מחדש.');else if(placed<3)toast('עדיין חסרות דפנות.')},330)}});
+  const r=geo.roof,hit=polygon(svg,[r.fl,r.fr,r.br,r.bl],'transparent');hit.style.cursor='ns-resize';let lift=0,maxLift=0;drag(hit,{start:()=>{lift=0;maxLift=0},move:(e,dx,dy)=>{lift=Math.max(-82,Math.min(5,dy));if(lift<0)maxLift=Math.max(maxLift,-lift);roof.group.setAttribute('transform',`translate(0 ${lift})`);hit.setAttribute('transform',`translate(0 ${lift})`)},end:()=>{const qualified=placed===3&&maxLift>=35,from=lift;roof.group.animate([{transform:`translateY(${from}px)`},{transform:'translateY(4px)'},{transform:'translateY(0)'}],{duration:330,easing:'cubic-bezier(.2,.8,.2,1)'});hit.animate([{transform:`translateY(${from}px)`},{transform:'translateY(0)'}],{duration:300});setTimeout(()=>{roof.group.removeAttribute('transform');hit.removeAttribute('transform');if(qualified)success('שלוש הדפנות הועמדו תחילה, ולאחר מכן הסכך הורם והונח מחדש.');else if(placed<3)toast('עדיין חסרות דפנות.');else if(maxLift>0)toast('הרימו את הסכך גבוה יותר, ואז הניחו אותו מחדש.')},330)}});
 }
 
 // PUZZLE 5 — a compact, realistically bound lulav bundle
@@ -383,7 +392,7 @@ function p5(){
   const svg=baseSvg();
   rect(svg,0,0,1000,562,'#e8f1ea');
   S('path',{d:'M0 438 Q250 416 500 439 T1000 432 V562 H0Z',fill:'#d9c894',opacity:.6},svg);
-  text(svg,500,49,'ארבעת המינים — בדיקת גובה',15,{'font-weight':950,'text-anchor':'middle',fill:'#77847c','letter-spacing':1.8});
+  text(svg,500,49,'ארבעת המינים — בדיקת גובה',17,{'font-weight':800,'text-anchor':'middle',fill:'#77847c'});
   S('ellipse',{cx:445,cy:507,rx:150,ry:21,fill:'#58735f',opacity:.15},svg);
 
   // Tall central lulav: a clean, narrow palm frond. It deliberately has no side branches.
@@ -430,11 +439,11 @@ function p5(){
   S('line',{x1:rx,y1:88,x2:rx,y2:365,stroke:'#31433b','stroke-width':5},ruler);
   for(let y=102;y<=350;y+=35)S('line',{x1:rx-10,y1:y,x2:rx+10,y2:y,stroke:'#31433b','stroke-width':3},ruler);
   S('line',{x1:rx-20,y1:103,x2:rx+22,y2:103,stroke:'#2c8057','stroke-width':6},ruler);
-  text(ruler,822,109,'קצה הלולב',14,{'font-weight':850,fill:'#52645b'});
+  text(ruler,806,109,'קצה הלולב',15,{'font-weight':800,fill:'#52645b','text-anchor':'end'});
   const marker=S('line',{x1:rx-20,y1:170,x2:rx+22,y2:170,stroke:'#b64c3b','stroke-width':7},ruler);
   const guide=S('line',{x1:520,y1:170,x2:rx-22,y2:170,stroke:'#b64c3b','stroke-width':3,'stroke-dasharray':'8 7',opacity:.7},ruler);
   const badge=rect(svg,716,404,230,96,'#fffaf0',{rx:16,stroke:'#b64c3b','stroke-width':4});
-  text(svg,831,432,'הלולב מעל האגודה',12,{'font-weight':950,'text-anchor':'middle',fill:'#74786f','letter-spacing':1});
+  text(svg,831,432,'הלולב מעל האגודה',14,{'font-weight':800,'text-anchor':'middle',fill:'#74786f'});
   const label=text(svg,831,471,'½ טפח',31,{'font-weight':950,'text-anchor':'middle',fill:'#a64034'});
 
   let d=0;
@@ -523,7 +532,7 @@ function p6(){
 
   // Levi: already inside the house, finishing his meal.
   const lev=seatedPerson(735,282,'#7a6649');
-  rect(lev,682,373,112,12,'#9e6a3d',{rx:5,stroke:'#293a34','stroke-width':4});S('circle',{cx:738,cy:367,r:12,fill:'#fff8e7',stroke:'#293a34','stroke-width':3},lev);pill(735,247,'מסיים את הסעודה',138);
+  rect(lev,682,373,112,12,'#9e6a3d',{rx:5,stroke:'#293a34','stroke-width':4});S('circle',{cx:738,cy:367,r:12,fill:'#fff8e7',stroke:'#293a34','stroke-width':3},lev);pill(735,247,'נכנס בגלל הגשם, מסיים בבית',184);
 
   // Yehuda: fruit and meat outside, correctly.
   const yeh=standPerson(915,292,'#6c7f4d');

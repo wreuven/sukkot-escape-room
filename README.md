@@ -4,8 +4,9 @@ An interactive Hebrew escape-room game for Sukkot (ages 12–18), based on *Peni
 
 - `src/game.html` – game 1, the escape room (readable source, one self-contained HTML file).
 - `src/puzzles.html` – game 2, "חידות חשיבה" thinking puzzles; offered from game 1's victory screen.
-- `docs/index.html`, `docs/puzzles.html` – what GitHub Pages publishes: the same games, encrypted, behind a password screen.
-- `tools/encrypt_game.py` – rebuilds both `docs/` pages from `src/`.
+- `src/puzzles-v2.html` – game 2 with review improvements (published as `puzzles-v2.html`), for comparison.
+- `docs/*.html` – what GitHub Pages publishes: the same games, encrypted, behind a password screen.
+- `tools/encrypt_game.py` – rebuilds the `docs/` pages from `src/`.
 
 GitHub Pages publishes only the `docs/` folder, so the games can only be played with the password
 (or a link ending in `#k=<password>`, e.g. `…/sukkot-escape-room/#k=…` or `…/puzzles.html#k=…`).
