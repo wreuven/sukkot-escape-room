@@ -2104,13 +2104,13 @@
             }
         }
 
-        // SECOND GAME (puzzles.html, published next to this page)
-        const SECOND_GAME_URL = 'https://wreuven.github.io/sukkot-escape-room/puzzles.html';
+        // SECOND GAME (puzzles-v2.html, published next to this page)
+        const SECOND_GAME_URL = 'https://wreuven.github.io/sukkot-escape-room/puzzles-v2.html';
 
         function goToSecondGame() {
             playSound('click');
             // Next to this page when hosted; the published address otherwise (e.g. opened as a local file)
-            const base = location.protocol.startsWith('http') ? 'puzzles.html' : SECOND_GAME_URL;
+            const base = location.protocol.startsWith('http') ? 'puzzles-v2.html' : SECOND_GAME_URL;
             // Carry the password along so the second game unlocks without asking again
             location.href = base + (window.__sukkotKey ? '#k=' + encodeURIComponent(window.__sukkotKey) : '');
         }

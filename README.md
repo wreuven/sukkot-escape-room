@@ -3,8 +3,8 @@
 An interactive Hebrew escape-room game for Sukkot (ages 12–18), based on *Peninei Halakha – Sukkot*, chapters 1–5.
 
 - `src/game.html` – game 1, the escape room (readable source, one self-contained HTML file).
-- `src/puzzles.html` – game 2, "חידות חשיבה" thinking puzzles; offered from game 1's victory screen.
-- `src/puzzles-v2.html` – game 2 with review improvements (published as `puzzles-v2.html`), for comparison.
+- `src/puzzles-v2.html` – game 2, "חידות חשיבה" thinking puzzles (improved version); offered from game 1's victory screen.
+- `src/puzzles.html` – the original version of game 2, still published as `puzzles.html`.
 - `docs/*.html` – what GitHub Pages publishes: the same games, encrypted, behind a password screen.
 - `tools/encrypt_game.py` – rebuilds the `docs/` pages from `src/`.
 
