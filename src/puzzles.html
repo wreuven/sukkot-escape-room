@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<title>צופן הסוכה — חידות חשיבה</title>
+<style>
+:root{--ink:#253831;--muted:#69786f;--paper:#fffaf0;--green:#1d6244;--gold:#d8ae53;--red:#b64c3b;--shadow:0 16px 46px rgba(45,57,46,.14)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;font-family:Arial,"Noto Sans Hebrew",Inter,ui-rounded,"SF Pro Rounded",system-ui,-apple-system,"Segoe UI",sans-serif;direction:rtl;background:radial-gradient(circle at 50% -20%,#fffdf7 0,#efe4ca 72%,#e3d4b5 100%);color:var(--ink)}
+body{padding:14px;display:flex;justify-content:center}
+button{font:inherit}.app{width:min(1120px,100%);display:flex;flex-direction:column;gap:10px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{display:flex;align-items:center;gap:10px;font-weight:950;letter-spacing:-.025em}.brandMark{width:43px;height:43px;border-radius:13px;background:linear-gradient(145deg,#174d36,#2b7952);color:white;display:grid;place-items:center;box-shadow:0 7px 20px rgba(30,96,67,.2)}
+.topRight{display:flex;align-items:center;gap:8px}.pill{background:rgba(255,255,255,.78);border:1px solid rgba(34,53,47,.1);border-radius:999px;padding:8px 11px;font-size:12px;font-weight:900;white-space:nowrap}.tokens{display:flex;align-items:center;gap:5px}.token{width:18px;height:18px;border-radius:50%;background:var(--gold);border:2px solid #8e7132;box-shadow:inset 0 1px 0 rgba(255,255,255,.7)}.token.spent{background:#d8d3c8;border-color:#aaa49a;opacity:.55}
+.progress{height:8px;background:rgba(34,53,47,.1);border-radius:99px;overflow:hidden}.progress>i{height:100%;display:block;background:linear-gradient(90deg,#1f6949,#a69443);width:0;transition:.3s}.card{background:rgba(255,250,240,.96);border:2px solid rgba(34,53,47,.08);border-radius:24px;box-shadow:var(--shadow);overflow:hidden}.prompt{text-align:center;padding:14px 18px 8px}.kicker{font-size:11px;font-weight:950;letter-spacing:.14em;color:#78867f;text-transform:uppercase}.prompt h1{margin:4px 0 0;font-size:clamp(23px,3vw,34px);line-height:1.08;letter-spacing:-.035em}.prompt p{margin:7px auto 0;max-width:760px;color:var(--muted);font-size:14px;font-weight:700;line-height:1.4}
+.sceneWrap{padding:8px 12px 12px}.scene{position:relative;border-radius:19px;overflow:hidden;border:2px solid rgba(34,53,47,.12);background:#d9eceb;aspect-ratio:16/9;min-height:470px;touch-action:none;user-select:none}.scene svg{width:100%;height:100%;display:block;touch-action:none}.scene::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 70px rgba(31,53,41,.06);pointer-events:none}.footer{display:flex;justify-content:space-between;align-items:center;gap:10px}.group{display:flex;gap:7px}.btn{border:2px solid rgba(34,53,47,.1);background:white;border-radius:13px;padding:9px 13px;font-weight:900;cursor:pointer;box-shadow:0 5px 16px rgba(34,53,47,.07)}.btn.primary{background:var(--green);color:white;border-color:transparent}.btn.hint{background:#f5df95}.btn:disabled{opacity:.38;cursor:not-allowed}.hintRow{min-height:54px;padding:0 12px 12px;display:flex;gap:10px;justify-content:center;align-items:center}.hintText{display:none;background:#fff1ba;border:2px solid #d5ab4d;border-radius:13px;padding:8px 12px;max-width:760px;font-weight:800;font-size:13px}.hintText.show{display:block;animation:pop .18s ease}.toast{position:absolute;left:50%;bottom:18px;transform:translate(-50%,12px);opacity:0;background:rgba(28,39,34,.91);color:white;padding:8px 12px;border-radius:999px;font-weight:850;font-size:12px;transition:.18s;z-index:20;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}
+.correctNote{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:16;width:min(620px,88%);background:rgba(255,253,246,.96);border:3px solid #2c8057;border-radius:20px;padding:17px 22px;box-shadow:0 18px 46px rgba(31,53,41,.22);text-align:center;animation:popCenter .24s cubic-bezier(.2,.9,.2,1.2)}.correctNote strong{display:block;font-size:27px;color:#236844;margin-bottom:5px}.correctNote p{margin:0;color:#4f6258;font-weight:800;line-height:1.35}.correctTick{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;margin:0 auto 7px;background:#2c8057;color:white;font-size:31px;font-weight:1000}.footer .primary{display:none}@keyframes popCenter{from{opacity:0;transform:translate(-50%,-50%) scale(.9)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+
+.fireworks{position:absolute;inset:0;z-index:14;overflow:hidden;pointer-events:all;background:radial-gradient(circle at 50% 55%,rgba(255,248,218,.16),rgba(17,39,30,.08))}
+.fireworkBurst{position:absolute;width:1px;height:1px;animation:burstFlash 1.05s ease-out infinite;animation-delay:var(--delay)}
+.fireworkBurst::after{content:"";position:absolute;left:-4px;top:-4px;width:8px;height:8px;border-radius:50%;background:#fff6c8;box-shadow:0 0 18px 7px rgba(255,235,151,.6);animation:coreFlash 1.05s ease-out infinite;animation-delay:var(--delay)}
+.fireworkSpark{position:absolute;left:-2px;top:-2px;width:4px;height:38px;border-radius:999px;background:linear-gradient(to bottom,var(--spark),rgba(255,255,255,0));transform-origin:2px 2px;transform:rotate(var(--angle)) translateY(-4px) scaleY(.08);opacity:0;animation:fireSpark 1.05s ease-out infinite;animation-delay:var(--delay);filter:drop-shadow(0 0 3px var(--spark))}
+@keyframes fireSpark{0%{opacity:0;transform:rotate(var(--angle)) translateY(-3px) scaleY(.05)}12%{opacity:1}65%{opacity:.88;transform:rotate(var(--angle)) translateY(-58px) scaleY(1)}100%{opacity:0;transform:rotate(var(--angle)) translateY(-82px) scaleY(.5)}}
+@keyframes coreFlash{0%,8%{opacity:0;transform:scale(.2)}14%{opacity:1;transform:scale(1.2)}55%,100%{opacity:0;transform:scale(.3)}}
+@keyframes burstFlash{0%,100%{opacity:1}}
+@keyframes pop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+@media(max-width:760px){body{padding:7px}.brand span{display:none}.scene{min-height:560px;aspect-ratio:auto}.prompt{padding:11px 10px 7px}.prompt h1{font-size:24px}.prompt p{font-size:13px}.pill{font-size:10px;padding:7px 9px}.btn{padding:8px 10px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top"><div class="brand"><div class="brandMark">🌿</div><span>צופן הסוכה — חידות חשיבה</span></div><div class="topRight"><div class="pill tokens" id="tokens"></div><div class="pill" id="count">חידה 1 מתוך 6</div></div></div>
+  <div class="progress"><i id="progress"></i></div>
+  <main class="card">
+    <div class="prompt"><div class="kicker" id="kicker"></div><h1 id="title"></h1><p id="subtitle"></p></div>
+    <div class="sceneWrap"><div class="scene" id="scene"></div></div>
+    <div class="hintRow"><button class="btn hint" id="hintBtn">בקשת רמז</button><div class="hintText" id="hintText"></div></div>
+  </main>
+  <div class="footer"><div class="group"><button class="btn" id="prev">הקודם</button><button class="btn" id="reset">איפוס</button></div><button class="btn primary" id="next" disabled>הבא</button></div>
+</div>
+<script>
+(()=>{
+const NS='http://www.w3.org/2000/svg';
+const scene=document.getElementById('scene'),title=document.getElementById('title'),subtitle=document.getElementById('subtitle'),kicker=document.getElementById('kicker'),count=document.getElementById('count'),progress=document.getElementById('progress'),tokens=document.getElementById('tokens'),hintBtn=document.getElementById('hintBtn'),hintText=document.getElementById('hintText'),prev=document.getElementById('prev'),reset=document.getElementById('reset'),next=document.getElementById('next');
+const requested=Number(new URLSearchParams(location.search).get('level'));
+let level=Number.isInteger(requested)&&requested>=0&&requested<6?requested:0,solved=false,hintsLeft=3,hintSeen=[0,0,0,0,0,0],toastTimer=null;
+const sectionNames=[
+'שער הכוונה ומשמעות החג',
+'מעבדת הנדסת הכותלים והדפנות',
+'סורק הסכך והגדרת הצל',
+'סדר הבנייה ונטרול מוקשים הלכתיים',
+'מעבדת ארבעת המינים',
+'מנורת הדילמות ומנעול האושפיזין'
+];
+const puzzles=[
+{title:'גרמו לכך שיהיה ברור שהסוכה נבנתה לשם המצווה.',sub:'אפשר לנסות להזיז ולגרור כל דבר שרואים.',h:['חפשו משהו בסצנה שמשתנה עם הזמן.','אותה סוכה יכולה לקבל משמעות אחרת בחודש אחר.','נסו להסיר את דפי לוח השנה בזה אחר זה.']},
+{title:'הסוכה הזאת אינה עוברת את הבדיקה.',sub:'תקנו את הבעיה בתרשים.',h:['מה עוד אפשר להזיז?']},
+{title:'גם זה לא כשרה.',sub:'',h:['יש בסכך כמה רווחים ברורים.','אחד מהחפצים מתאים בדיוק לחומר שכבר נמצא על הגג.','הוסיפו עוד שלבי סכך עד שיהיה מספיק צל.']},
+{title:'הסוכה נראית גמורה — אבל עדיין פסולה.',sub:'תקנו את אופן הבנייה.',h:['הבעיה אינה בחומרים. הבעיה היא בסדר.','קודם העמידו את שלוש הדפנות. אחר כך עדיין צריך לעשות משהו עם מה שמעליהן.','אחרי שכל שלוש הדפנות עומדות, הרימו את הסכך והניחו אותו מחדש.']},
+{title:'מיקום בעייתי',sub:'אגודת הלולב כמעט נכונה.',h:['אל תאריכו את הלולב.','המדידה היא יחסית.','הנמיכו את ההדסים והערבות.']},
+{title:'גרמו לכך שכולם ינהגו כהלכה.',sub:'לא כל מי שבסצנה זקוק לאותו דבר.',h:['לא צריך להזיז את כולם.','שני אנשים צריכים את הסוכה; שניים כבר נוהגים נכון.','שנו את גבול הסוכה במקום להזיז את האנשים.']}
+];
+function S(tag,attrs={},parent){const e=document.createElementNS(NS,tag);for(const [k,v] of Object.entries(attrs)){if(k==='text')e.textContent=v;else e.setAttribute(k,v)}if(parent)parent.appendChild(e);return e}
+function g(root,attrs={}){return S('g',attrs,root)}
+function rect(root,x,y,w,h,fill,extra={}){return S('rect',{x,y,width:w,height:h,fill,...extra},root)}
+function text(root,x,y,t,size=24,extra={}){return S('text',{x,y,text:t,'font-family':'Arial, Noto Sans Hebrew, sans-serif','font-size':size,fill:'#253831',direction:'rtl','unicode-bidi':'plaintext',...extra},root)}
+function use(root,id,x,y,w,h,extra={}){return S('use',{href:'#'+id,x,y,width:w,height:h,...extra},root)}
+function img(root,file,x,y,w,h,extra={}){return S('image',{href:'assets/'+file,x,y,width:w,height:h,preserveAspectRatio:'xMidYMid meet',...extra},root)}
+function injectDefs(defs){
+  defs.innerHTML=`
+  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#d9eff2"/><stop offset="1" stop-color="#f9f0d7"/></linearGradient>
+  <linearGradient id="grass" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#b6cd8c"/><stop offset="1" stop-color="#73975e"/></linearGradient>
+  <linearGradient id="wood" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#9b6338"/><stop offset=".22" stop-color="#c8874b"/><stop offset=".5" stop-color="#e2aa67"/><stop offset=".78" stop-color="#bb7841"/><stop offset="1" stop-color="#8d562f"/></linearGradient>
+  <linearGradient id="wallWood" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#d4a86b"/><stop offset=".5" stop-color="#edd09a"/><stop offset="1" stop-color="#bd8952"/></linearGradient>
+  <linearGradient id="slat" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#9e7946"/><stop offset=".48" stop-color="#d2aa68"/><stop offset="1" stop-color="#7d673d"/></linearGradient>
+  <filter id="soft" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-opacity=".16"/></filter>
+  <filter id="tinyShadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity=".18"/></filter>
+  <symbol id="post" viewBox="0 0 44 270">
+    <rect x="7" y="5" width="30" height="260" rx="9" fill="url(#wood)" stroke="#3b3328" stroke-width="5"/>
+    <path d="M16 28v192M28 52v165" stroke="#74492d" stroke-width="2.5" opacity=".45" stroke-linecap="round"/>
+    <path d="M11 244h22" stroke="#5f3f29" stroke-width="5" opacity=".55"/>
+  </symbol>
+  <symbol id="wallPanel" viewBox="0 0 330 220">
+    <rect x="6" y="6" width="318" height="208" rx="8" fill="#b97d49" stroke="#3b3328" stroke-width="7"/>
+    <rect x="19" y="18" width="292" height="184" rx="4" fill="url(#wallWood)" stroke="#725039" stroke-width="3"/>
+    <g stroke="#a77548" stroke-width="3" opacity=".72">
+      <path d="M51 20v180M83 20v180M115 20v180M147 20v180M179 20v180M211 20v180M243 20v180M275 20v180"/>
+    </g>
+    <path d="M18 70h294M18 151h294" stroke="#8d603d" stroke-width="8" opacity=".68"/>
+    <g fill="#7e593d" opacity=".55"><circle cx="34" cy="44" r="4"/><circle cx="130" cy="121" r="4"/><circle cx="258" cy="58" r="4"/></g>
+  </symbol>
+  <symbol id="roofFrame" viewBox="0 0 560 150">
+    <path d="M25 126 L85 23 H475 L535 126 Z" fill="none" stroke="#3b3328" stroke-width="14" stroke-linejoin="round"/>
+    <path d="M27 126 L535 126M85 23H475" stroke="url(#wood)" stroke-width="9" stroke-linecap="round"/>
+    <path d="M25 126 85 23M535 126 475 23" stroke="url(#wood)" stroke-width="9" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="roofSlat" viewBox="0 0 26 120">
+    <rect x="4" y="2" width="18" height="116" rx="8" fill="url(#slat)" stroke="#4f4931" stroke-width="3"/>
+    <path d="M9 15v88M17 25v66" stroke="#e1c486" stroke-width="2" opacity=".48" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="relaxPerson" viewBox="0 0 300 300">
+    <!-- chair: all legs connect to the seat frame -->
+    <g stroke="#45372d" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M58 66 95 190 214 190" fill="none" stroke="#9b6338" stroke-width="16"/>
+      <path d="M73 72 105 176 205 176" fill="none" stroke="#5f8a89" stroke-width="35"/>
+      <path d="M96 188 68 274M205 188l27 86M112 226h101" fill="none" stroke="#9b6338" stroke-width="14"/>
+    </g>
+    <!-- person -->
+    <g stroke="#2e3d38" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="128" cy="89" r="34" fill="#dba274" stroke-width="5"/>
+      <path d="M96 80q7-39 43-37 31 1 39 29-39-11-82 8z" fill="#253d4a" stroke-width="5"/>
+      <path d="M106 59q19-16 44-5" fill="none" stroke="#1d5b8a" stroke-width="10"/>
+      <path d="M101 94q5 37 28 44 27-7 31-44-14 14-30 14-16 0-29-14z" fill="#5b3a2e" stroke-width="4"/>
+      <circle cx="116" cy="86" r="3.5" fill="#263630" stroke="none"/><circle cx="142" cy="86" r="3.5" fill="#263630" stroke="none"/>
+      <path d="M130 91q-4 8 2 9" fill="none" stroke-width="3"/>
+      <path d="M104 136q35-24 70 4l23 65H88z" fill="#f5f1e8" stroke-width="5"/>
+      <path d="M100 151 77 197M171 151l51 28" fill="none" stroke="#dba274" stroke-width="16"/>
+      <path d="M106 203 145 232 187 268M165 204 195 228 222 268" fill="none" stroke="#334552" stroke-width="20"/>
+      <path d="M180 270h43M142 270h44" stroke="#2e3d38" stroke-width="13"/>
+      <!-- remote clearly in hand -->
+      <g transform="translate(211 161) rotate(18)"><rect x="0" y="0" width="22" height="48" rx="6" fill="#30383d" stroke="#202a2d" stroke-width="4"/><circle cx="11" cy="11" r="4" fill="#d25448" stroke="none"/><circle cx="11" cy="24" r="3" fill="#b6c3c8" stroke="none"/></g>
+    </g>
+  </symbol>
+  <symbol id="tv" viewBox="0 0 240 170">
+    <rect x="12" y="10" width="216" height="126" rx="13" fill="#303b3e" stroke="#263430" stroke-width="7"/>
+    <rect x="27" y="25" width="186" height="96" rx="7" fill="#a9d9e5" stroke="#1f2d2a" stroke-width="3"/>
+    <circle cx="68" cy="58" r="17" fill="#f2cf61"/><path d="M28 103q43-33 86 0t98-9v27H27z" fill="#78a369"/>
+    <path d="M97 137h47l8 16H89z" fill="#5a5148" stroke="#263430" stroke-width="4"/><rect x="69" y="151" width="102" height="10" rx="5" fill="#5a5148"/>
+  </symbol>
+  <symbol id="lulavReal" viewBox="0 0 190 540">
+    <!-- Central closed palm spear -->
+    <path d="M95 520 C96 402 95 257 95 54" fill="none" stroke="#527b39" stroke-width="15" stroke-linecap="round"/>
+    <path d="M95 518 C98 394 98 246 96 48" fill="none" stroke="#b4ce72" stroke-width="6" stroke-linecap="round" opacity=".95"/>
+    <!-- Paired long, narrow palm leaflets -->
+    <g fill="#6f9a45" stroke="#466b34" stroke-width="2.4" stroke-linejoin="round">
+      <path d="M92 445 C70 430 39 404 18 365 C50 382 78 406 94 425Z"/><path d="M98 445 C120 430 151 404 172 365 C140 382 112 406 96 425Z"/>
+      <path d="M92 407 C67 390 34 357 14 319 C50 338 78 366 95 389Z"/><path d="M98 407 C123 390 156 357 176 319 C140 338 112 366 95 389Z"/>
+      <path d="M92 369 C66 349 35 318 17 279 C51 298 80 326 95 351Z"/><path d="M98 369 C124 349 155 318 173 279 C139 298 110 326 95 351Z"/>
+      <path d="M92 330 C68 310 40 279 23 242 C54 259 80 287 95 313Z"/><path d="M98 330 C122 310 150 279 167 242 C136 259 110 287 95 313Z"/>
+      <path d="M92 291 C70 272 45 242 31 209 C58 224 82 249 95 275Z"/><path d="M98 291 C120 272 145 242 159 209 C132 224 108 249 95 275Z"/>
+      <path d="M92 252 C72 235 51 208 40 178 C64 191 83 214 95 238Z"/><path d="M98 252 C118 235 139 208 150 178 C126 191 107 214 95 238Z"/>
+      <path d="M92 214 C75 198 58 175 49 149 C68 159 84 179 95 201Z"/><path d="M98 214 C115 198 132 175 141 149 C122 159 106 179 95 201Z"/>
+      <path d="M92 179 C78 166 65 146 59 124 C74 132 87 149 95 168Z"/><path d="M98 179 C112 166 125 146 131 124 C116 132 103 149 95 168Z"/>
+      <path d="M93 146 C82 136 73 120 69 102 C81 109 90 122 95 137Z"/><path d="M97 146 C108 136 117 120 121 102 C109 109 100 122 95 137Z"/>
+    </g>
+    <!-- Closed double center leaf -->
+    <path d="M95 57 C83 39 88 18 95 7 C103 20 108 40 96 58Z" fill="#8eb358" stroke="#466b34" stroke-width="3"/>
+  </symbol>
+  <symbol id="etrogReal" viewBox="0 0 150 185">
+    <path d="M76 31 C106 32 127 56 126 96 C125 140 104 168 75 170 C43 168 23 139 24 96 C25 55 46 31 76 31Z" fill="#e3c33e" stroke="#6e6529" stroke-width="6"/>
+    <path d="M48 65q29-20 55 2M43 103q32-14 66 0M54 137q23-8 46 0" fill="none" stroke="#c0a32f" stroke-width="4" opacity=".7"/>
+    <path d="M75 31q-2-15 8-23" fill="none" stroke="#5c7d3a" stroke-width="7" stroke-linecap="round"/>
+    <path d="M83 12q17-5 23 6-16 7-25 1" fill="#6d9847" stroke="#456b34" stroke-width="3"/>
+  </symbol>
+  <symbol id="hadasReal" viewBox="0 0 130 430">
+    <path d="M65 420 Q66 262 62 28" fill="none" stroke="#5d7d3c" stroke-width="7" stroke-linecap="round"/>
+    <g fill="#4f8a46" stroke="#356838" stroke-width="2.4">
+      <g transform="translate(63 330)"><ellipse cx="-17" cy="-6" rx="13" ry="34" transform="rotate(-52)"/><ellipse cx="18" cy="-7" rx="13" ry="34" transform="rotate(52)"/><ellipse cx="0" cy="-27" rx="13" ry="35"/></g>
+      <g transform="translate(63 255)"><ellipse cx="-18" cy="-5" rx="13" ry="34" transform="rotate(-52)"/><ellipse cx="18" cy="-5" rx="13" ry="34" transform="rotate(52)"/><ellipse cx="0" cy="-27" rx="13" ry="35"/></g>
+      <g transform="translate(63 180)"><ellipse cx="-18" cy="-4" rx="13" ry="34" transform="rotate(-52)"/><ellipse cx="18" cy="-4" rx="13" ry="34" transform="rotate(52)"/><ellipse cx="0" cy="-27" rx="13" ry="35"/></g>
+      <g transform="translate(63 108)"><ellipse cx="-17" cy="-3" rx="12" ry="31" transform="rotate(-52)"/><ellipse cx="17" cy="-3" rx="12" ry="31" transform="rotate(52)"/><ellipse cx="0" cy="-25" rx="12" ry="32"/></g>
+    </g>
+  </symbol>
+  <symbol id="aravaReal" viewBox="0 0 130 430">
+    <path d="M65 420 Q70 250 60 25" fill="none" stroke="#9f6752" stroke-width="7" stroke-linecap="round"/>
+    <g fill="#719553" stroke="#4d733f" stroke-width="2.3">
+      <ellipse cx="41" cy="335" rx="11" ry="45" transform="rotate(-46 41 335)"/><ellipse cx="87" cy="311" rx="11" ry="46" transform="rotate(43 87 311)"/>
+      <ellipse cx="38" cy="255" rx="10" ry="44" transform="rotate(-47 38 255)"/><ellipse cx="88" cy="232" rx="10" ry="44" transform="rotate(44 88 232)"/>
+      <ellipse cx="41" cy="174" rx="10" ry="42" transform="rotate(-45 41 174)"/><ellipse cx="84" cy="151" rx="10" ry="42" transform="rotate(42 84 151)"/>
+      <ellipse cx="47" cy="99" rx="9" ry="38" transform="rotate(-42 47 99)"/><ellipse cx="78" cy="77" rx="9" ry="37" transform="rotate(37 78 77)"/>
+    </g>
+  </symbol>
+  <symbol id="wovenHolder" viewBox="0 0 300 150">
+    <path d="M35 32 Q150 4 265 32 L245 126 Q150 148 55 126Z" fill="#d8b36c" stroke="#6e5635" stroke-width="6"/>
+    <g fill="none" stroke="#987241" stroke-width="5" opacity=".8">
+      <path d="M52 43q98 32 196 0M48 68q102 32 204 0M45 93q105 32 210 0M52 118q98 28 196 0"/>
+      <path d="M78 26 92 132M118 18l8 121M159 16l-2 126M201 19l-10 118M239 26l-15 105"/>
+    </g>
+    <path d="M41 34 Q150 62 260 34" fill="none" stroke="#f1d59b" stroke-width="4" opacity=".75"/>
+  </symbol>
+  <symbol id="shovel" viewBox="0 0 90 150"><path d="M47 16v92" stroke="#8e6239" stroke-width="12" stroke-linecap="round"/><path d="M27 20q19-18 39 0" fill="none" stroke="#3b3328" stroke-width="9"/><path d="M26 103h42l-7 36H34z" fill="#8d9aa0" stroke="#3b4143" stroke-width="5"/></symbol>
+  <symbol id="paintbrush" viewBox="0 0 130 90"><path d="M17 61 82 25" stroke="#a66d3c" stroke-width="17" stroke-linecap="round"/><rect x="72" y="12" width="42" height="34" rx="5" fill="#e9d6b4" stroke="#3c3b35" stroke-width="5" transform="rotate(-28 93 29)"/><path d="m88 5 18 33" stroke="#62a16f" stroke-width="13" stroke-linecap="round"/></symbol>
+  <symbol id="rockIcon" viewBox="0 0 120 90"><path d="M15 68 30 31 66 14 102 33 110 68z" fill="#8b8f8d" stroke="#454b47" stroke-width="6"/><path d="M40 36q18-11 37 2" stroke="#b5b8b5" stroke-width="5" fill="none" opacity=".65"/></symbol>
+  <symbol id="umbrella" viewBox="0 0 130 150"><path d="M18 63q47-58 94 0z" fill="#d65c52" stroke="#343d39" stroke-width="5"/><path d="M65 63v60q0 17 16 12" fill="none" stroke="#343d39" stroke-width="7" stroke-linecap="round"/><path d="M65 28v35" stroke="#343d39" stroke-width="5"/></symbol>
+  `;
+}
+function baseSvg(){scene.innerHTML='';const svg=S('svg',{viewBox:'0 0 1000 562',role:'img'},scene);const defs=S('defs',{},svg);injectDefs(defs);rect(svg,0,0,1000,562,'url(#sky)');return svg}
+function landscape(svg){S('circle',{cx:84,cy:80,r:36,fill:'#f3d166',opacity:.92},svg);S('path',{d:'M0 355 Q110 317 225 355 T470 348 T720 360 T1000 338 V562 H0Z',fill:'#bbc991'},svg);S('path',{d:'M0 419 Q135 383 270 414 T535 407 T805 420 T1000 402 V562 H0Z',fill:'url(#grass)'},svg);for(let i=0;i<15;i++)S('path',{d:`M${25+i*72} 455q8-35 16 0`,stroke:'#5f824e','stroke-width':4,fill:'none',opacity:.48},svg)}
+function polygon(root,pts,fill,extra={}){return S('polygon',{points:pts.map(p=>`${p.x},${p.y}`).join(' '),fill,...extra},root)}
+function line(root,a,b,extra={}){return S('line',{x1:a.x,y1:a.y,x2:b.x,y2:b.y,...extra},root)}
+function mix(a,b,t){return {x:a.x+(b.x-a.x)*t,y:a.y+(b.y-a.y)*t}}
+function centerOf(pts){return {x:pts.reduce((n,p)=>n+p.x,0)/pts.length,y:pts.reduce((n,p)=>n+p.y,0)/pts.length}}
+function woodBeam(root,a,b,w=13){line(root,a,b,{stroke:'#3b3328','stroke-width':w+5,'stroke-linecap':'round'});return line(root,a,b,{stroke:'url(#wood)','stroke-width':w,'stroke-linecap':'round'})}
+function makeSukkahGeo({cx=500,frontW=640,backW=380,groundFront=445,groundBack=420,roofFrontY=180,roofBackY=112,wallTopFront=194,wallTopBack=126}={}){
+  const fl={x:cx-frontW/2,y:roofFrontY},fr={x:cx+frontW/2,y:roofFrontY},bl={x:cx-backW/2,y:roofBackY},br={x:cx+backW/2,y:roofBackY};
+  return {cx,frontW,backW,groundFront,groundBack,roof:{fl,fr,bl,br},wall:{
+    flTop:{x:fl.x,y:wallTopFront},frTop:{x:fr.x,y:wallTopFront},blTop:{x:bl.x,y:wallTopBack},brTop:{x:br.x,y:wallTopBack},
+    flBottom:{x:fl.x,y:groundFront},frBottom:{x:fr.x,y:groundFront},blBottom:{x:bl.x,y:groundBack},brBottom:{x:br.x,y:groundBack}
+  }}
+}
+function wallPoints(geo,kind,{gap=0}={}){
+  const w=geo.wall;
+  if(kind==='back')return [w.blTop,w.brTop,{x:w.brBottom.x,y:w.brBottom.y-gap},{x:w.blBottom.x,y:w.blBottom.y-gap}];
+  if(kind==='left')return [w.flTop,w.blTop,w.blBottom,w.flBottom];
+  return [w.brTop,w.frTop,w.frBottom,w.brBottom];
+}
+function drawPerspectiveWall(root,pts,{outline=false,opacity=1}={}){
+  const gr=g(root,{opacity});
+  polygon(gr,pts,outline?'rgba(250,247,235,.10)':'url(#wallWood)',{stroke:outline?'#66776f':'#594633','stroke-width':outline?4:5,'stroke-dasharray':outline?'11 8':null,'stroke-linejoin':'round'});
+  if(outline)return gr;
+  const [tl,tr,br,bl]=pts;
+  for(let i=1;i<9;i++){const t=i/9;line(gr,mix(tl,tr,t),mix(bl,br,t),{stroke:'#9e724b','stroke-width':2.2,opacity:.68})}
+  [0.34,0.72].forEach(t=>line(gr,mix(tl,bl,t),mix(tr,br,t),{stroke:'#8a603e','stroke-width':7,opacity:.72,'stroke-linecap':'round'}));
+  return gr
+}
+function drawPerspectivePosts(root,geo){const r=geo.roof,w=geo.wall;const gr=g(root);woodBeam(gr,r.fl,w.flBottom,16);woodBeam(gr,r.fr,w.frBottom,16);woodBeam(gr,r.bl,w.blBottom,14);woodBeam(gr,r.br,w.brBottom,14);return gr}
+function roofSlotPoints(geo,i,slots){const t=(i+.5)/slots,r=geo.roof;const fc=mix(r.fl,r.fr,t),bc=mix(r.bl,r.br,t);const fw=Math.max(7,geo.frontW/slots*.47),bw=Math.max(5,geo.backW/slots*.47);return [{x:fc.x-fw/2,y:fc.y},{x:fc.x+fw/2,y:fc.y},{x:bc.x+bw/2,y:bc.y},{x:bc.x-bw/2,y:bc.y}]}
+function drawRoofSlat(root,geo,i,slots,extra={}){const pts=roofSlotPoints(geo,i,slots);const el=polygon(root,pts,'url(#slat)',{stroke:'#4f4931','stroke-width':1.8,'stroke-linejoin':'round',...extra});const c1=mix(pts[0],pts[1],.5),c2=mix(pts[3],pts[2],.5);line(root,c1,c2,{stroke:'#ead39e','stroke-width':1.1,opacity:.43,'pointer-events':'none'});return el}
+function drawPerspectiveRoof(root,geo,{slots=15,filled=null,idPrefix='r'}={}){const gr=g(root,{filter:'url(#soft)'}),active=filled??Array.from({length:slots},(_,i)=>i);active.forEach(i=>{const el=drawRoofSlat(gr,geo,i,slots,{'data-slot':i,id:`${idPrefix}-${i}`});el.setAttribute('data-slot',i)});const r=geo.roof;woodBeam(gr,r.fl,r.fr,15);woodBeam(gr,r.bl,r.br,12);woodBeam(gr,r.fl,r.bl,13);woodBeam(gr,r.fr,r.br,13);return {group:gr,slots,geo,slotCenter:i=>centerOf(roofSlotPoints(geo,i,slots))}}
+function drawPerspectiveSukkah(root,geo,{walls=['left','back','right'],rearGap=0,roofSlots=15,roofFilled=null,idPrefix='s'}={}){const wallLayer=g(root);walls.forEach(k=>drawPerspectiveWall(wallLayer,wallPoints(geo,k,{gap:k==='back'?rearGap:0})));const postLayer=drawPerspectivePosts(root,geo);const roof=drawPerspectiveRoof(root,geo,{slots:roofSlots,filled:roofFilled,idPrefix});return {wallLayer,postLayer,roof,geo}}
+function drawLooseSlat(root,x,y,w=22,h=68){const gr=g(root);rect(gr,x,y,w,h,'url(#slat)',{rx:w/2,stroke:'#4f4931','stroke-width':3});S('line',{x1:x+w*.38,y1:y+8,x2:x+w*.38,y2:y+h-8,stroke:'#ead39e','stroke-width':2,opacity:.42},gr);return gr}
+function groundBand(root,y=438){const gg=g(root);S('path',{d:`M0 ${y} Q180 ${y-13} 340 ${y} T680 ${y-7} T1000 ${y-2} V562 H0Z`,fill:'#82995f',stroke:'#557348','stroke-width':5},gg);S('path',{d:`M0 ${y+25}q180-14 360 0t360 0t280-3`,stroke:'#6e784f','stroke-width':5,fill:'none',opacity:.5},gg);return gg}
+function toast(msg){clearTimeout(toastTimer);let t=scene.querySelector('.toast');if(!t){t=document.createElement('div');t.className='toast';scene.appendChild(t)}t.textContent=msg;t.classList.add('show');toastTimer=setTimeout(()=>t.classList.remove('show'),1250)}
+function finishGame(){
+  scene.innerHTML='<div style="position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(180deg,#d8efed,#f5edcf)"><div style="text-align:center"><div style="font-size:76px">🌿</div><h2 style="font-size:42px;margin:4px 0">חג שמח!</h2><p style="font-weight:850;color:#64736b">פתרתם את כל שש החידות.</p></div></div>';
+  progress.style.width='100%';title.textContent='הבריחה הושלמה';subtitle.textContent='';kicker.textContent='';hintBtn.disabled=true;prev.disabled=false;
+}
+let successAudioCtx=null;
+function playSuccessTune(){
+  try{
+    const AC=window.AudioContext||window.webkitAudioContext;
+    if(!AC)return;
+    successAudioCtx=successAudioCtx||new AC();
+    if(successAudioCtx.state==='suspended')successAudioCtx.resume();
+    const now=successAudioCtx.currentTime;
+    const notes=[{f:523.25,t:0,d:.20},{f:659.25,t:.18,d:.22},{f:783.99,t:.38,d:.24},{f:1046.5,t:.62,d:.34}];
+    notes.forEach(n=>{
+      const o=successAudioCtx.createOscillator(),g=successAudioCtx.createGain();
+      o.type='sine';o.frequency.setValueAtTime(n.f,now+n.t);
+      g.gain.setValueAtTime(.0001,now+n.t);
+      g.gain.exponentialRampToValueAtTime(.16,now+n.t+.025);
+      g.gain.exponentialRampToValueAtTime(.0001,now+n.t+n.d);
+      o.connect(g);g.connect(successAudioCtx.destination);o.start(now+n.t);o.stop(now+n.t+n.d+.03);
+    });
+  }catch(e){}
+}
+function success(msg){
+  if(solved)return;
+  solved=true;playSuccessTune();hintBtn.disabled=true;next.disabled=true;prev.disabled=true;reset.disabled=true;
+  progress.style.width=((level+1)/6*100)+'%';
+  const fx=document.createElement('div');fx.className='fireworks';
+  const bursts=[
+    [18,34,.00,'#e7bd4f'],[50,22,.18,'#65a778'],[79,38,.36,'#d86f59'],
+    [31,68,.54,'#6a9fca'],[68,70,.72,'#e7bd4f'],[50,49,.90,'#d86f59']
+  ];
+  bursts.forEach(([x,y,delay,color])=>{const b=document.createElement('div');b.className='fireworkBurst';b.style.left=x+'%';b.style.top=y+'%';b.style.setProperty('--delay',delay+'s');for(let i=0;i<14;i++){const sp=document.createElement('i');sp.className='fireworkSpark';sp.style.setProperty('--angle',(i*360/14)+'deg');sp.style.setProperty('--delay',delay+'s');sp.style.setProperty('--spark',color);b.appendChild(sp)}fx.appendChild(b)});
+  scene.appendChild(fx);
+  setTimeout(()=>{
+    if(!scene.contains(fx))return;
+    fx.remove();
+    const note=document.createElement('div');note.className='correctNote';note.innerHTML=`<div class="correctTick">✓</div><strong>כן — נכון!</strong><p>${msg}</p>`;scene.appendChild(note);
+    setTimeout(()=>{
+      if(!scene.contains(note))return;
+      if(level<5){level++;render()}else finishGame();
+      prev.disabled=level===0;reset.disabled=false;
+    },8000);
+  },3000)
+}
+function shake(el){el.animate([{transform:'translateX(0)'},{transform:'translateX(-10px)'},{transform:'translateX(8px)'},{transform:'translateX(0)'}],{duration:260,easing:'ease-out'})}
+function sceneDelta(e,sx,sy){const r=scene.getBoundingClientRect();return [(e.clientX-sx)*1000/r.width,(e.clientY-sy)*562/r.height]}
+function drag(el,{start,move,end}={}){let p=null,sx=0,sy=0;el.style.cursor='grab';el.style.touchAction='none';el.addEventListener('pointerdown',e=>{if(solved)return;p=e.pointerId;sx=e.clientX;sy=e.clientY;try{el.setPointerCapture(p)}catch{}el.style.cursor='grabbing';start?.(e)});el.addEventListener('pointermove',e=>{if(e.pointerId!==p)return;const [dx,dy]=sceneDelta(e,sx,sy);move?.(e,dx,dy)});const finish=e=>{if(e.pointerId!==p)return;const [dx,dy]=sceneDelta(e,sx,sy);end?.(e,dx,dy);p=null;el.style.cursor='grab'};el.addEventListener('pointerup',finish);el.addEventListener('pointercancel',finish)}
+function draggableDecoy(el){let dx=0,dy=0;drag(el,{move:(e,x,y)=>{dx=x;dy=y;el.setAttribute('transform',`translate(${x} ${y})`)},end:()=>{const a=el.animate([{transform:`translate(${dx}px,${dy}px)`},{transform:'translate(0,0)'}],{duration:270,easing:'cubic-bezier(.2,.8,.2,1)'});a.onfinish=()=>el.removeAttribute('transform')}})}
+function updateUI(){kicker.textContent=sectionNames[level];title.textContent=puzzles[level].title;subtitle.textContent=puzzles[level].sub;count.textContent=`חידה ${level+1} מתוך 6`;prev.disabled=level===0;next.disabled=true;next.textContent=level===5?'סיום ✓':'הבא';tokens.innerHTML='';for(let i=0;i<3;i++){const t=document.createElement('span');t.className='token'+(i>=hintsLeft?' spent':'');tokens.appendChild(t)}hintBtn.disabled=hintsLeft===0||hintSeen[level]>=puzzles[level].h.length;hintBtn.textContent=hintsLeft?(hintsLeft===1?'בקשת רמז · נשאר רמז אחד':`בקשת רמז · נשארו ${hintsLeft} רמזים`):'אין עוד רמזים';if(hintSeen[level]){hintText.textContent=puzzles[level].h[hintSeen[level]-1];hintText.classList.add('show')}else{hintText.classList.remove('show');hintText.textContent=''}}
+hintBtn.onclick=()=>{if(hintsLeft<=0||hintSeen[level]>=puzzles[level].h.length)return;hintsLeft--;hintSeen[level]++;updateUI()};
+
+// PUZZLE 1 — standard three-wall sukkah in true perspective + tear-off calendar
+function p1(){
+  const svg=baseSvg();landscape(svg);groundBand(svg,438);
+  const geo=makeSukkahGeo({cx:350,frontW:480,backW:285,groundFront:438,groundBack:420,roofFrontY:182,roofBackY:116,wallTopFront:195,wallTopBack:129});
+  // Three grounded walls: left, rear and right. The open side faces the player.
+  const wallLayer=g(svg);['left','back','right'].forEach(k=>drawPerspectiveWall(wallLayer,wallPoints(geo,k)));
+  drawPerspectivePosts(svg,geo);drawPerspectiveRoof(svg,geo,{slots:15,idPrefix:'p1'});
+  use(svg,'tv',330,278,140,100,{filter:'url(#tinyShadow)'});rect(svg,340,378,120,13,'#94633b',{rx:6,stroke:'#40372f','stroke-width':4});
+  use(svg,'relaxPerson',145,215,270,275,{filter:'url(#tinyShadow)'});
+
+  const cal=g(svg,{filter:'url(#soft)'}),cx=770,cy=92,cw=164,ch=280;
+  rect(cal,cx,cy,cw,ch,'#b96845',{rx:14,stroke:'#493b32','stroke-width':6});rect(cal,cx+12,cy+21,cw-24,ch-34,'#f2ead8',{rx:10,stroke:'#7e6d58','stroke-width':3});
+  [cx+48,cx+116].forEach(x=>{S('circle',{cx:x,cy:cy+18,r:9,fill:'#d9d4c6',stroke:'#45413a','stroke-width':4},cal);S('line',{x1:x,y1:cy+5,x2:x,y2:cy+31,stroke:'#514c43','stroke-width':4},cal)});
+  const months=['ניסן','אייר','סיוון','תמוז','אב','אלול','תשרי'];let month=0,locked=false;
+  function makePage(name,under=false){const pg=g(cal,{'data-calendar-page':name});const px=cx+23,py=cy+46,pw=cw-46,ph=205;rect(pg,px,py,pw,ph,under?'#f7f1e4':'#fffdf8',{rx:5,stroke:'#6d6254','stroke-width':under?2:3});S('line',{x1:px+8,y1:py+27,x2:px+pw-8,y2:py+27,stroke:'#b3a995','stroke-width':2,'stroke-dasharray':'5 5'},pg);text(pg,px+pw/2,py+67,name,under?22:24,{'font-weight':950,'text-anchor':'middle',fill:under?'#978c78':'#893c2e'});text(pg,px+pw/2,py+88,'תשפ״ז',11,{'font-weight':800,'text-anchor':'middle',fill:'#9a9286'});for(let r=0;r<4;r++)for(let c=0;c<5;c++)S('circle',{cx:px+24+c*18,cy:py+115+r*18,r:3.2,fill:'#b9b1a4',opacity:under?.35:.72},pg);S('path',{d:`M${px+pw-21} ${py+ph}q21-22 21-4v4z`,fill:'#e7decf',stroke:'#bdb2a0','stroke-width':1.5},pg);return pg}
+  function renderPages(){
+    [...cal.querySelectorAll('[data-calendar-page]')].forEach(n=>n.remove());
+    if(month<months.length-1)makePage(months[month+1],true);
+    const top=makePage(months[month],false);
+    if(month===months.length-1){setTimeout(()=>success('אותה סוכה נמצאת עכשיו בתשרי, ולכן ניכר שהיא נבנתה לשם מצוות סוכה.'),260);return}
+    let active=false,sx=0,sy=0,dx=0,dy=0;
+    top.style.transformBox='fill-box';top.style.transformOrigin='50% 8%';top.style.cursor='grab';top.style.touchAction='none';
+    const cleanup=()=>{window.removeEventListener('pointermove',onMove,true);window.removeEventListener('pointerup',onRelease,true);window.removeEventListener('pointercancel',onRelease,true);window.removeEventListener('blur',onRelease,true)};
+    const onMove=e=>{if(!active||locked)return;const [x,y]=sceneDelta(e,sx,sy);dx=x;dy=y;const rot=Math.max(-16,Math.min(16,x*.04));top.style.transform=`translate(${x}px,${y}px) rotate(${rot}deg)`;e.preventDefault?.()};
+    const onRelease=e=>{if(!active||locked)return;active=false;cleanup();locked=true;top.style.cursor='grabbing';const side=Math.abs(dx)>8?Math.sign(dx):1;const ex=dx+side*245,ey=dy+125,rot=side*34;const from=top.style.transform||'translate(0,0) rotate(0deg)';const a=top.animate([{transform:from,opacity:1},{transform:`translate(${ex}px,${ey}px) rotate(${rot}deg) scale(.82)`,opacity:0}],{duration:360,easing:'cubic-bezier(.3,.05,.65,1)'});a.onfinish=()=>{month++;locked=false;renderPages()}};
+    top.addEventListener('pointerdown',e=>{if(locked||solved)return;active=true;sx=e.clientX;sy=e.clientY;dx=dy=0;top.parentNode.appendChild(top);top.style.cursor='grabbing';window.addEventListener('pointermove',onMove,true);window.addEventListener('pointerup',onRelease,true);window.addEventListener('pointercancel',onRelease,true);window.addEventListener('blur',onRelease,true);e.preventDefault()});
+  }
+  renderPages();
+}
+
+// PUZZLE 2 — balance the rear wall so both gaps are inside lavud
+function p2(){
+  const svg=baseSvg();landscape(svg);text(svg,500,43,'תרשים בדיקה',16,{'font-weight':950,'text-anchor':'middle',fill:'#78867e','letter-spacing':2});
+  const geo=makeSukkahGeo({cx:490,frontW:590,backW:355,groundFront:456,groundBack:430,roofFrontY:178,roofBackY:108,wallTopFront:191,wallTopBack:120});
+  groundBand(svg,geo.groundFront);
+
+  // The rear panel begins 35 cm above the ground. The total free clearance around it is 40 cm,
+  // so there is a narrow valid band where BOTH the upper and lower gaps are less than 22.8 cm.
+  const startBottomCm=35,startTopCm=5,totalCm=startBottomCm+startTopCm;
+  const gapPx=84,pxPerCm=gapPx/startBottomCm,maxOff=gapPx;
+  const wallLayer=g(svg);drawPerspectiveWall(wallLayer,wallPoints(geo,'left'));drawPerspectiveWall(wallLayer,wallPoints(geo,'right'));
+  const rearBase=wallPoints(geo,'back',{gap:gapPx}),rearWall=drawPerspectiveWall(wallLayer,rearBase);rearWall.style.cursor='ns-resize';rearWall.style.touchAction='none';
+  drawPerspectivePosts(svg,geo);drawPerspectiveRoof(svg,geo,{slots:15,idPrefix:'p2'});
+
+  const measure=g(svg),mx=geo.roof.br.x-28;let wallOff=0,dragStartOff=0;
+  function clearMeasure(){while(measure.firstChild)measure.firstChild.remove()}
+  function gapValues(off=wallOff){
+    const movedCm=off/pxPerCm;
+    return {bottom:Math.max(0,startBottomCm-movedCm),top:Math.max(0,startTopCm+movedCm)};
+  }
+  function arrow(y1,y2,labelText,which,ok){
+    const col=ok?'#28734e':'#b64c3b',x=mx;
+    S('line',{x1:x,y1,x2:x,y2,stroke:col,'stroke-width':5},measure);S('line',{x1:x-15,y1,x2:x+15,y2:y1,stroke:col,'stroke-width':5},measure);S('line',{x1:x-15,y1:y2,x2:x+15,y2,stroke:col,'stroke-width':5},measure);
+    const cy=(y1+y2)/2;rect(measure,x-142,cy-23,108,46,'#fff9ec',{rx:11,stroke:col,'stroke-width':4});text(measure,x-88,cy+8,labelText,21,{'font-weight':950,'text-anchor':'middle',fill:col});text(measure,x+8,cy+5,which,11,{'font-weight':850,fill:'#6e776f'});
+  }
+  function renderMeasure(off=wallOff){
+    clearMeasure();
+    const {bottom,top}=gapValues(off);
+    const bottomY=geo.groundBack-gapPx+off,groundY=geo.groundBack;
+    const topY=geo.wall.blTop.y+off,roofY=geo.roof.bl.y;
+    arrow(bottomY,groundY,bottom.toFixed(1)+' ס״מ','פער תחתון',bottom<22.8);
+    arrow(roofY,topY,top.toFixed(1)+' ס״מ','פער עליון',top<22.8);
+  }
+  renderMeasure();
+
+  // The wall follows the pointer continuously. It only solves when released with BOTH gaps < 22.8 cm.
+  drag(rearWall,{start:()=>{dragStartOff=wallOff},move:(e,dx,dy)=>{
+    wallOff=Math.max(0,Math.min(maxOff,dragStartOff+dy));
+    rearWall.setAttribute('transform',`translate(0 ${wallOff})`);
+    renderMeasure(wallOff);
+  },end:()=>{
+    const {bottom,top}=gapValues(wallOff);
+    if(bottom<22.8&&top<22.8){
+      const a=rearWall.animate([{transform:`translateY(${wallOff}px)`},{transform:`translateY(${wallOff+4}px)`},{transform:`translateY(${wallOff}px)`}],{duration:260,easing:'ease-out'});
+      a.onfinish=()=>rearWall.setAttribute('transform',`translate(0 ${wallOff})`);
+      setTimeout(()=>success(`שני הרווחים קטנים עכשיו מ־22.8 ס״מ: ${bottom.toFixed(1)} ס״מ למטה ו־${top.toFixed(1)} ס״מ למעלה.`),180);
+    }else{
+      toast(bottom>=22.8?'אוי. זה פשוט רחוק מדי מלמטה.':'אוי. זה פשוט רחוק מדי מלמעלה.');
+    }
+  }});
+}
+
+// PUZZLE 3 — identical sukkah geometry; only roof slats are missing
+function p3(){
+  const svg=baseSvg();landscape(svg);const geo=makeSukkahGeo({cx:455,frontW:560,backW:335,groundFront:442,groundBack:420,roofFrontY:176,roofBackY:102,wallTopFront:189,wallTopBack:115});groundBand(svg,geo.groundFront);
+  const walls=g(svg);['left','back','right'].forEach(k=>drawPerspectiveWall(walls,wallPoints(geo,k)));drawPerspectivePosts(svg,geo);
+  const slots=12,initial=[0,2,4,6,8,10],filled=new Set(initial);const roof=drawPerspectiveRoof(svg,geo,{slots,filled:initial,idPrefix:'p3'});
+  const meter=g(svg);rect(meter,778,66,180,116,'#fffaf0',{rx:14,stroke:'#7d6c4a','stroke-width':4});text(meter,868,93,'צל',14,{'font-weight':950,'text-anchor':'middle',fill:'#74786b'});const pct=text(meter,868,135,'42%',38,{'font-weight':950,'text-anchor':'middle'});rect(meter,803,153,130,11,'#d5d6d0',{rx:6});const meterFill=rect(meter,803,153,55,11,'#d6ae4d',{rx:6});
+  let shade=42,added=0;function updateShade(){shade=42+added*7;pct.textContent=shade+'%';meterFill.setAttribute('width',130*shade/100);pct.setAttribute('fill',shade>=60&&shade<=85?'#28734e':'#253831')}
+  const tray=g(svg);rect(tray,38,458,918,86,'rgba(255,250,240,.91)',{rx:16,stroke:'#cbb991','stroke-width':3});
+  function newSpare(x){const gr=drawLooseSlat(tray,x,474,22,63);let dx=0,dy=0;drag(gr,{move:(e,a,b)=>{dx=a;dy=b;gr.setAttribute('transform',`translate(${a} ${b}) rotate(${Math.max(-8,Math.min(8,a*.025))} ${x+11} 505)`)},end:()=>{const cx=x+11+dx,cy=505+dy;const inRoof=cy>geo.roof.br.y-25&&cy<geo.roof.fr.y+32&&cx>geo.roof.fl.x-30&&cx<geo.roof.fr.x+30;if(inRoof){let best=null,bestD=1e9;for(let i=0;i<slots;i++){if(filled.has(i))continue;const c=roof.slotCenter(i),d=Math.hypot(cx-c.x,cy-c.y);if(d<bestD){bestD=d;best=i}}if(best!==null){filled.add(best);added++;const landed=drawRoofSlat(roof.group,geo,best,slots,{opacity:.18});landed.animate([{opacity:.18},{opacity:1}],{duration:260,easing:'ease-out'}).onfinish=()=>landed.setAttribute('opacity',1);gr.remove();updateShade();if(shade>=60&&shade<=85)setTimeout(()=>success(`הוספת שלבי הסכך הביאה את רמת הצל ל־${shade}%.`),280);return}}const a=gr.animate([{transform:`translate(${dx}px,${dy}px)`},{transform:'translate(0,0)'}],{duration:250,easing:'cubic-bezier(.2,.8,.2,1)'});a.onfinish=()=>gr.removeAttribute('transform')}})}
+  [78,112,146,180,214].forEach(newSpare);[['shovel',315,468,54,72],['paintbrush',455,482,92,52],['rockIcon',615,482,90,58],['umbrella',790,465,70,76]].forEach(([id,x,y,w,h])=>draggableDecoy(use(tray,id,x,y,w,h)));
+}
+
+// PUZZLE 4 — the same three perspective walls must be installed before the roof is lifted and replaced
+function p4(){
+  const svg=baseSvg();landscape(svg);const geo=makeSukkahGeo({cx:500,frontW:620,backW:370,groundFront:440,groundBack:417,roofFrontY:172,roofBackY:100,wallTopFront:185,wallTopBack:113});groundBand(svg,geo.groundFront);
+  const wallLayer=g(svg);const kinds=['left','back','right'];const targets=kinds.map(kind=>({kind,pts:wallPoints(geo,kind)}));targets.forEach(t=>drawPerspectiveWall(wallLayer,t.pts,{outline:true}));drawPerspectivePosts(svg,geo);const roof=drawPerspectiveRoof(svg,geo,{slots:15,idPrefix:'p4'});
+  const tray=g(svg);rect(tray,42,454,916,90,'rgba(255,250,240,.94)',{rx:16,stroke:'#cbb991','stroke-width':3});text(tray,65,477,'שלוש דפנות',11,{'font-weight':900,fill:'#7c786d'});
+  let placed=0;const occupied=new Set();
+  function miniPts(kind,x,y,w=170,h=60){if(kind==='back')return [{x,y:y+4},{x:x+w,y:y+4},{x:x+w,y:y+h},{x,y:y+h}];if(kind==='left')return [{x,y:y+13},{x:x+w,y},{x:x+w,y:y+h-6},{x,y:y+h}];return [{x,y},{x:x+w,y:y+13},{x:x+w,y:y+h},{x,y:y+h-6}]}
+  function makeWallPiece(kind,x){const gr=g(tray);drawPerspectiveWall(gr,miniPts(kind,x,482,150,54));let dx=0,dy=0;drag(gr,{move:(e,a,b)=>{dx=a;dy=b;gr.setAttribute('transform',`translate(${a} ${b})`)},end:()=>{const c={x:x+75+dx,y:509+dy};let choice=null,best=1e9;targets.forEach((t,i)=>{if(occupied.has(i)||t.kind!==kind)return;const tc=centerOf(t.pts),d=Math.hypot(c.x-tc.x,c.y-tc.y);if(d<best){best=d;choice=i}});if(choice!==null&&best<190){occupied.add(choice);placed++;const final=drawPerspectiveWall(wallLayer,targets[choice].pts,{opacity:.18});final.animate([{opacity:.18},{opacity:1}],{duration:240,easing:'ease-out'}).onfinish=()=>final.setAttribute('opacity',1);gr.remove();if(placed===3)toast('הכול נראה גמור…');return}const a=gr.animate([{transform:`translate(${dx}px,${dy}px)`},{transform:'translate(0,0)'}],{duration:250,easing:'cubic-bezier(.2,.8,.2,1)'});a.onfinish=()=>gr.removeAttribute('transform')}})}
+  makeWallPiece('left',82);makeWallPiece('back',310);makeWallPiece('right',538);
+  const r=geo.roof,hit=polygon(svg,[r.fl,r.fr,r.br,r.bl],'transparent');hit.style.cursor='ns-resize';let lift=0,maxLift=0;drag(hit,{start:()=>{lift=0;maxLift=0},move:(e,dx,dy)=>{lift=Math.max(-82,Math.min(5,dy));if(lift<0)maxLift=Math.max(maxLift,-lift);roof.group.setAttribute('transform',`translate(0 ${lift})`);hit.setAttribute('transform',`translate(0 ${lift})`)},end:()=>{const qualified=placed===3&&maxLift>=35,from=lift;roof.group.animate([{transform:`translateY(${from}px)`},{transform:'translateY(4px)'},{transform:'translateY(0)'}],{duration:330,easing:'cubic-bezier(.2,.8,.2,1)'});hit.animate([{transform:`translateY(${from}px)`},{transform:'translateY(0)'}],{duration:300});setTimeout(()=>{roof.group.removeAttribute('transform');hit.removeAttribute('transform');if(qualified)success('שלוש הדפנות הועמדו תחילה, ולאחר מכן הסכך הורם והונח מחדש.');else if(placed<3)toast('עדיין חסרות דפנות.')},330)}});
+}
+
+// PUZZLE 5 — a compact, realistically bound lulav bundle
+function p5(){
+  const svg=baseSvg();
+  rect(svg,0,0,1000,562,'#e8f1ea');
+  S('path',{d:'M0 438 Q250 416 500 439 T1000 432 V562 H0Z',fill:'#d9c894',opacity:.6},svg);
+  text(svg,500,49,'ארבעת המינים — בדיקת גובה',15,{'font-weight':950,'text-anchor':'middle',fill:'#77847c','letter-spacing':1.8});
+  S('ellipse',{cx:445,cy:507,rx:150,ry:21,fill:'#58735f',opacity:.15},svg);
+
+  // Tall central lulav: a clean, narrow palm frond. It deliberately has no side branches.
+  // All leafy side growth below belongs to the hadassim/aravot bundle and moves with the binding ring.
+  const lul=g(svg,{filter:'url(#soft)'});
+  S('path',{d:'M438 478 C437 356 438 220 440 88',fill:'none',stroke:'#4f7a3f','stroke-width':13,'stroke-linecap':'round'},lul);
+  // Tight upright palm leaves kept close to the central spine, so they never read as hadas/arava branches.
+  [-18,-12,-6,0,6,12,18].forEach((off,i)=>{
+    const top=54+Math.abs(off)*1.8;
+    S('path',{d:`M${440+off*.12} 300 Q${440+off*.72} 178 ${440+off} ${top}`,fill:'none',stroke:i===3?'#3f6f37':'#5c8c49','stroke-width':i===3?7:5,'stroke-linecap':'round'},lul);
+  });
+
+  // The hadassim and aravot hug the lulav closely. Every visible side leaf belongs to one of these two groups.
+  // They are explicit sibling groups so the ring always moves BOTH species together.
+  const aravotGroup=g(svg,{filter:'url(#tinyShadow)'});
+  const hadassimGroup=g(svg,{filter:'url(#tinyShadow)'});
+  use(aravotGroup,'aravaReal',350,166,70,288,{transform:'rotate(-3 385 310)'});
+  use(aravotGroup,'aravaReal',463,166,70,288,{transform:'rotate(3 498 310)'});
+  use(hadassimGroup,'hadasReal',374,158,68,296,{transform:'rotate(-2 408 310)'});
+  use(hadassimGroup,'hadasReal',406,154,68,300,{transform:'rotate(0 440 310)'});
+  use(hadassimGroup,'hadasReal',438,158,68,296,{transform:'rotate(2 472 310)'});
+
+  // A small band, not a basket: just enough to bind the stems together.
+  const band=g(svg,{filter:'url(#tinyShadow)'});
+  const bandHit=rect(band,365,383,150,58,'transparent',{'pointer-events':'all'});
+  rect(band,378,398,124,27,'#d8b36c',{rx:14,stroke:'#6e5635','stroke-width':5});
+  S('path',{d:'M388 405q52 14 103 0M388 417q52 13 103 0',fill:'none',stroke:'#987241','stroke-width':3,opacity:.78},band);
+  S('path',{d:'M398 399v25M425 399v25M452 399v25M479 399v25',stroke:'#f0d69c','stroke-width':2,opacity:.72},band);
+
+  // Invisible hit areas over the leaves let the whole bound group be dragged from either species as well.
+  const bundleHit=g(svg);
+  rect(bundleHit,344,150,200,304,'transparent',{'pointer-events':'all'});
+
+  use(svg,'etrogReal',120,337,100,126,{filter:'url(#tinyShadow)',opacity:.98});
+  text(svg,170,486,'אתרוג',12,{'font-weight':850,'text-anchor':'middle',fill:'#68756e'});
+
+  const labs=g(svg,{opacity:.9});
+  rect(labs,188,176,104,31,'#fffaf0',{rx:15,stroke:'#7a765f','stroke-width':2});text(labs,240,197,'הדסים',13,{'font-weight':900,'text-anchor':'middle'});
+  line(labs,{x:292,y:192},{x:390,y:232},{stroke:'#6f776f','stroke-width':2});
+  rect(labs,594,181,92,31,'#fffaf0',{rx:15,stroke:'#7a765f','stroke-width':2});text(labs,640,202,'ערבות',13,{'font-weight':900,'text-anchor':'middle'});
+  line(labs,{x:594,y:197},{x:507,y:233},{stroke:'#6f776f','stroke-width':2});
+
+  const ruler=g(svg),rx=782;
+  S('line',{x1:rx,y1:88,x2:rx,y2:365,stroke:'#31433b','stroke-width':5},ruler);
+  for(let y=102;y<=350;y+=35)S('line',{x1:rx-10,y1:y,x2:rx+10,y2:y,stroke:'#31433b','stroke-width':3},ruler);
+  S('line',{x1:rx-20,y1:103,x2:rx+22,y2:103,stroke:'#2c8057','stroke-width':6},ruler);
+  text(ruler,822,109,'קצה הלולב',14,{'font-weight':850,fill:'#52645b'});
+  const marker=S('line',{x1:rx-20,y1:170,x2:rx+22,y2:170,stroke:'#b64c3b','stroke-width':7},ruler);
+  const guide=S('line',{x1:520,y1:170,x2:rx-22,y2:170,stroke:'#b64c3b','stroke-width':3,'stroke-dasharray':'8 7',opacity:.7},ruler);
+  const badge=rect(svg,716,404,230,96,'#fffaf0',{rx:16,stroke:'#b64c3b','stroke-width':4});
+  text(svg,831,432,'הלולב מעל האגודה',12,{'font-weight':950,'text-anchor':'middle',fill:'#74786f','letter-spacing':1});
+  const label=text(svg,831,471,'½ טפח',31,{'font-weight':950,'text-anchor':'middle',fill:'#a64034'});
+
+  let d=0;
+  function updateMeasure(){
+    const y=170+d;marker.setAttribute('y1',y);marker.setAttribute('y2',y);guide.setAttribute('y1',y);guide.setAttribute('y2',y);
+    if(d>52){label.textContent='טפח אחד';label.setAttribute('fill','#2c7a52');badge.setAttribute('stroke','#2c7a52')}else{label.textContent='½ טפח';label.setAttribute('fill','#a64034');badge.setAttribute('stroke','#b54a3b')}
+  }
+  function setBundleOffset(y){
+    const t=`translate(0 ${y})`;
+    hadassimGroup.setAttribute('transform',t);
+    aravotGroup.setAttribute('transform',t);
+    band.setAttribute('transform',t);
+    bundleHit.setAttribute('transform',t);
+  }
+  function clearBundleOffset(){
+    hadassimGroup.removeAttribute('transform');aravotGroup.removeAttribute('transform');band.removeAttribute('transform');bundleHit.removeAttribute('transform');
+  }
+  function bundleDragHandler(target){
+    drag(target,{start:()=>band.setAttribute('opacity','.94'),move:(e,dx,dy)=>{d=Math.max(0,Math.min(78,dy));setBundleOffset(d);updateMeasure()},end:()=>{
+      band.setAttribute('opacity','1');
+      if(d>52){
+        [hadassimGroup,aravotGroup,band].forEach(el=>el.animate([{transform:`translateY(${d}px)`},{transform:`translateY(${d+5}px)`},{transform:`translateY(${d}px)`}],{duration:240,easing:'ease-out'}));
+        success('ההדסים והערבות הונמכו יחד, ולכן הלולב בולט מעליהם טפח שלם.');
+      } else {
+        const els=[hadassimGroup,aravotGroup,band,bundleHit];
+        els.forEach(el=>el.animate([{transform:`translateY(${d}px)`},{transform:'translateY(0)'}],{duration:260,easing:'cubic-bezier(.2,.8,.2,1)'}));
+        setTimeout(()=>{d=0;clearBundleOffset();updateMeasure()},265);
+      }
+    }});
+  }
+  bundleDragHandler(bandHit);
+  bundleDragHandler(bundleHit);
+  drag(lul,{end:()=>shake(lul)});
+}
+
+// PUZZLE 6 — fully inline vector scene; no external character assets
+function p6(){
+  const svg=baseSvg();landscape(svg);
+  // House at right.
+  const house=g(svg,{filter:'url(#soft)'});
+  rect(house,642,118,245,317,'#eee1cd',{rx:13,stroke:'#32443d','stroke-width':6});
+  S('path',{d:'M628 133 765 65 902 133Z',fill:'#a86e55',stroke:'#32443d','stroke-width':6,'stroke-linejoin':'round'},house);
+  rect(house,679,230,105,205,'#d1dce1',{rx:8,stroke:'#32443d','stroke-width':5});
+  rect(house,810,175,48,71,'#b88465',{rx:5,stroke:'#6a5547','stroke-width':4});
+  S('line',{x1:834,y1:175,x2:834,y2:246,stroke:'#6a5547','stroke-width':3},house);
+  S('line',{x1:810,y1:210,x2:858,y2:210,stroke:'#6a5547','stroke-width':3},house);
+
+  // Standard sukkah at left, using the same geometry system as the earlier puzzles.
+  const geo=makeSukkahGeo({cx:190,frontW:250,backW:145,groundFront:430,groundBack:418,roofFrontY:215,roofBackY:178,wallTopFront:228,wallTopBack:191});
+  const sukk=g(svg,{filter:'url(#soft)'});const walls=g(sukk);['left','back','right'].forEach(k=>drawPerspectiveWall(walls,wallPoints(geo,k)));drawPerspectivePosts(sukk,geo);drawPerspectiveRoof(sukk,geo,{slots:10,idPrefix:'p6'});
+
+  function head(root,x,y){
+    S('circle',{cx:x,cy:y,r:22,fill:'#dfa878',stroke:'#293a34','stroke-width':4},root);
+    S('path',{d:`M${x-20} ${y-7}q8-28 32-25 21 2 28 20-28-7-60 5z`,fill:'#2d4652',stroke:'#293a34','stroke-width':4},root);
+    S('path',{d:`M${x-15} ${y+10}q15 22 31 0-7 24-16 25-10-2-15-25z`,fill:'#654232',stroke:'#293a34','stroke-width':3},root);
+    S('circle',{cx:x-7,cy:y-2,r:2.6,fill:'#293a34'},root);S('circle',{cx:x+8,cy:y-2,r:2.6,fill:'#293a34'},root);
+  }
+  function seatedPerson(x,y,shirt='#426c86',sleeping=false){
+    const gr=g(svg,{filter:'url(#tinyShadow)'});
+    if(sleeping){
+      rect(gr,x-38,y+63,82,82,'#72647e',{rx:18,stroke:'#2d3d45','stroke-width':5});
+      S('path',{d:`M${x-30} ${y+130}h75M${x-25} ${y+132}l-10 36M${x+36} ${y+132}l12 36`,stroke:'#4f4658','stroke-width':9,fill:'none','stroke-linecap':'round'},gr);
+    }
+    head(gr,x,y);
+    S('path',{d:`M${x-32} ${y+36}q32-22 64 0l14 70h-92z`,fill:shirt,stroke:'#293a34','stroke-width':5,'stroke-linejoin':'round'},gr);
+    S('path',{d:`M${x-25} ${y+65}l-35 34M${x+25} ${y+65}l32 28`,stroke:'#dfa878','stroke-width':13,fill:'none','stroke-linecap':'round'},gr);
+    S('path',{d:`M${x-23} ${y+106}l-14 62M${x+22} ${y+106}l17 62`,stroke:'#34464e','stroke-width':17,fill:'none','stroke-linecap':'round'},gr);
+    if(sleeping){text(gr,x+52,y-28,'💤',22,{'font-weight':950,fill:'#71667e'});text(gr,x+72,y-48,'💤',17,{'font-weight':950,fill:'#71667e'})}
+    return gr
+  }
+  function standPerson(x,y,shirt='#6c7f4d'){
+    const gr=g(svg,{filter:'url(#tinyShadow)'});head(gr,x,y);
+    S('path',{d:`M${x-30} ${y+36}q30-20 60 0l16 78h-92z`,fill:shirt,stroke:'#293a34','stroke-width':5},gr);
+    S('path',{d:`M${x-18} ${y+112}l-10 76M${x+18} ${y+112}l12 76`,stroke:'#34464e','stroke-width':16,fill:'none','stroke-linecap':'round'},gr);
+    S('path',{d:`M${x-28} ${y+62}l-35 28M${x+28} ${y+61}l40 12`,stroke:'#dfa878','stroke-width':13,fill:'none','stroke-linecap':'round'},gr);return gr
+  }
+  function pill(x,y,t,w=112){rect(svg,x-w/2,y-23,w,29,'#fffaf0',{rx:14,stroke:'#7a765f','stroke-width':2});text(svg,x,y-3,t,12,{'font-weight':900,'text-anchor':'middle'})}
+
+  // Reuven: outside, eating a substantial piece of cake.
+  const reu=seatedPerson(344,290,'#426c86');
+  rect(reu,278,378,120,12,'#9e6a3d',{rx:5,stroke:'#293a34','stroke-width':4});S('path',{d:'M294 378v48M383 378v48',stroke:'#7b5335','stroke-width':8},reu);
+  S('path',{d:'M330 364h38l-6-22h-25z',fill:'#e8ba72',stroke:'#293a34','stroke-width':3},reu);pill(344,252,'עוגה 70 גרם',118);
+
+  // Shimon: sleeping outside.
+  const shi=seatedPerson(485,292,'#6f607d',true);pill(485,250,'ישן',78);
+
+  // Levi: already inside the house, finishing his meal.
+  const lev=seatedPerson(735,282,'#7a6649');
+  rect(lev,682,373,112,12,'#9e6a3d',{rx:5,stroke:'#293a34','stroke-width':4});S('circle',{cx:738,cy:367,r:12,fill:'#fff8e7',stroke:'#293a34','stroke-width':3},lev);pill(735,247,'מסיים את הסעודה',138);
+
+  // Yehuda: fruit and meat outside, correctly.
+  const yeh=standPerson(915,292,'#6c7f4d');
+  S('circle',{cx:866,cy:370,r:11,fill:'#cf4b38',stroke:'#293a34','stroke-width':3},yeh);
+  S('path',{d:'M948 365l36 15M965 372l13-18',stroke:'#865a38','stroke-width':7,'stroke-linecap':'round'},yeh);pill(915,252,'פירות ובשר',110);
+
+  // The people are red herrings: they can be tugged, but snap back.
+  [reu,shi,lev,yeh].forEach(draggableDecoy);
+
+  // Invisible edge hit-area. Stretch the sukkah itself rather than moving people.
+  const anchor=geo.roof.fl.x;let sx=1,start=1;const edge0=geo.roof.fr.x,hit=rect(svg,edge0-26,190,56,255,'transparent');
+  drag(hit,{start:()=>start=sx,move:(e,dx)=>{sx=Math.max(.95,Math.min(2.35,start+dx/260));sukk.setAttribute('transform',`translate(${anchor} 0) scale(${sx} 1) translate(${-anchor} 0)`);hit.setAttribute('x',anchor+(edge0-anchor)*sx-26)},end:()=>{if(sx>=2.05)success('הסוכה מכסה עכשיו את שני האנשים שצריכים אותה, ושני האחרים נשארים במקום שבו הם כבר נוהגים נכון.');else toast('הסצנה עדיין אינה נכונה.')}})
+}
+
+const renderers=[p1,p2,p3,p4,p5,p6];
+function render(){solved=false;next.disabled=true;prev.disabled=level===0;reset.disabled=false;hintText.classList.remove('show');updateUI();renderers[level]();progress.style.width=(level/6*100)+'%'}
+prev.onclick=()=>{if(level>0&&!solved){level--;render()}};reset.onclick=()=>{if(!solved)render()};next.onclick=()=>{};
+render();
+})();
+</script>
+</body>
+</html>

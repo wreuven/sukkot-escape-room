@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Encrypt the game into a password-protected index.html for GitHub Pages.
+"""Encrypt the games into password-protected pages for GitHub Pages.
 
-Reads the readable game (src/game.html) and writes docs/index.html, which holds only
+Reads each readable game in src/ and writes its page in docs/, which holds only
 AES-256-GCM ciphertext (key from PBKDF2-SHA256) plus a small Hebrew password screen that
 decrypts in the browser with WebCrypto. A link ending in #k=<password> unlocks directly.
 
-Usage (from the repo root):  GAME_PASSWORD=... python3 tools/encrypt_game.py
+Usage (from the repo root):  GAME_PASSWORD=... python3 tools/encrypt_game.py [input.html output.html]
 """
 import base64
 import json
@@ -110,13 +110,14 @@ LOCK_PAGE = r"""<!DOCTYPE html>
 """
 
 
-def main():
-    src = sys.argv[1] if len(sys.argv) > 1 else 'src/game.html'
-    out = sys.argv[2] if len(sys.argv) > 2 else 'docs/index.html'
-    password = os.environ.get('GAME_PASSWORD')
-    if not password:
-        sys.exit('Set GAME_PASSWORD in the environment.')
+# Readable source -> published encrypted page. Both games use the same password.
+PAGES = [
+    ('src/game.html', 'docs/index.html'),      # game 1: escape room
+    ('src/puzzles.html', 'docs/puzzles.html'),  # game 2: thinking puzzles (linked from game 1's victory screen)
+]
 
+
+def encrypt_file(src, out, password):
     plaintext = open(src, 'rb').read()
     salt, iv = os.urandom(16), os.urandom(12)
     key = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=salt, iterations=ITERATIONS).derive(password.encode())
@@ -130,6 +131,15 @@ def main():
     }
     open(out, 'w').write(LOCK_PAGE.replace('__DATA__', json.dumps(data)))
     print(f'wrote {out}: {len(plaintext)} bytes of game -> {os.path.getsize(out)} bytes encrypted page')
+
+
+def main():
+    password = os.environ.get('GAME_PASSWORD')
+    if not password:
+        sys.exit('Set GAME_PASSWORD in the environment.')
+    pages = [(sys.argv[1], sys.argv[2])] if len(sys.argv) > 2 else PAGES
+    for src, out in pages:
+        encrypt_file(src, out, password)
 
 
 if __name__ == '__main__':

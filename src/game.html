@@ -966,6 +966,11 @@
                 </div>
             </div>
 
+            <button onclick="goToSecondGame()" class="w-full sm:w-auto mx-auto mb-4 px-8 py-4 bg-gradient-to-r from-emerald-500 to-emerald-700 hover:from-emerald-400 hover:to-emerald-600 text-white font-black text-lg rounded-2xl shadow-xl shadow-emerald-500/30 transition-all flex items-center justify-center gap-3">
+                <span>למשחק השני: חידות חשיבה</span>
+                <i class="fa-solid fa-arrow-left"></i>
+            </button>
+
             <div class="flex flex-col sm:flex-row gap-3 justify-center items-center">
                 <button onclick="copyCertificate()" class="w-full sm:w-auto px-6 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-2xl shadow-lg transition-all flex items-center justify-center space-x-2 space-x-reverse">
                     <i class="fa-solid fa-share-nodes"></i>
@@ -1045,6 +1050,22 @@
             </div>
 
             <div id="bonusFeedback" class="hidden mt-3 p-3 rounded-xl text-xs font-semibold leading-relaxed"></div>
+        </div>
+    </div>
+
+    <!-- Next Game Modal -->
+    <div id="nextGameModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="glass-card rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 border-emerald-500/50 shadow-2xl relative text-center">
+            <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-700 flex items-center justify-center text-3xl shadow-lg">🌿</div>
+            <h3 class="text-2xl font-black font-heading text-white mb-2">כל הכבוד! סיימתם את חדר הבריחה</h3>
+            <p class="text-gray-200 text-sm leading-relaxed mb-6">מחכה לכם אתגר נוסף: <strong class="text-emerald-300">צופן הסוכה — חידות חשיבה</strong>. שש חידות ציוריות על אותם נושאים — הפעם פותרים בגרירה ובחשיבה.</p>
+            <button onclick="goToSecondGame()" class="w-full py-3.5 mb-3 bg-gradient-to-r from-emerald-500 to-emerald-700 hover:from-emerald-400 hover:to-emerald-600 text-white font-black text-lg rounded-2xl shadow-lg transition-all flex items-center justify-center gap-3">
+                <span>למשחק השני</span>
+                <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <button onclick="closeNextGameModal()" class="w-full py-3 bg-sukkot-800 hover:bg-sukkot-700 text-gray-200 font-bold rounded-2xl border border-gray-700 transition-all">
+                אחר כך
+            </button>
         </div>
     </div>
 
@@ -1834,6 +1855,8 @@
                         document.querySelectorAll('#ushpizinBadges span').forEach(b => {
                             b.className = "w-6 h-6 rounded-full bg-amber-400 text-sukkot-950 text-xs flex items-center justify-center font-bold shadow-lg shadow-amber-400/50";
                         });
+
+                        setTimeout(showNextGameModal, 2500);
                     }, 5000);
                 } else if (inputCode !== '') {
                     playSound('error');
@@ -2097,6 +2120,27 @@
                 feedback.className = "mt-3 p-3 rounded-xl text-xs font-semibold leading-relaxed bg-red-500/20 text-red-300 border border-red-500/40";
                 feedback.innerText = "לא מדויק – נסו שוב.";
             }
+        }
+
+        // SECOND GAME (puzzles.html, published next to this page)
+        const SECOND_GAME_URL = 'https://wreuven.github.io/sukkot-escape-room/puzzles.html';
+
+        function showNextGameModal() {
+            playSound('success');
+            document.getElementById('nextGameModal').classList.remove('hidden');
+        }
+
+        function closeNextGameModal() {
+            playSound('click');
+            document.getElementById('nextGameModal').classList.add('hidden');
+        }
+
+        function goToSecondGame() {
+            playSound('click');
+            // Next to this page when hosted; the published address otherwise (e.g. opened as a local file)
+            const base = location.protocol.startsWith('http') ? 'puzzles.html' : SECOND_GAME_URL;
+            // Carry the password along so the second game unlocks without asking again
+            location.href = base + (window.__sukkotKey ? '#k=' + encodeURIComponent(window.__sukkotKey) : '');
         }
 
         function restartGame() {
