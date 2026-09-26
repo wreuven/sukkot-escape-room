@@ -24,4 +24,7 @@ Two Hebrew (RTL) Sukkot games for ages 12–18, published with GitHub Pages and 
 - Talk to the owner in English. Describe Hebrew text in English, and quote Hebrew only when it must be typed exactly.
 - Each game-1 stage waits 5 seconds after a correct answer before moving on. Game 1's score screen stays until the player presses the next-game button (no pop-up).
 - Game 2: the explanation shows with the fireworks, and after 5 seconds a "next" button appears. There is no auto-advance.
-- Halachic content follows *Peninei Halakha*, with measures per R' Chaim Naeh (tefach ≈ 8 cm; lavud < 24 cm; 10 tefachim = 80 cm).
+- Halachic content follows *Peninei Halakha – Sukkot* (https://ph.yhb.org.il/category/סוכות/). Its chapters: א meaning of the festival, ב building the sukkah (schach, walls, lavud, building order, decorations), ג dwelling in it (eating, sleeping, rain, women), ד the four species, ה taking the lulav.
+- Measurements: the book gives 10 tefachim ≈ 80 cm, 7 tefachim ≈ 56 cm, 3 tefachim ≈ 22 cm, 20 amot ≈ 9 m. Some poskim use a tefach of 8 cm, so answers accept 7.5–8 cm per tefach (75–80 cm, 52–56 cm, lavud just under 22–24 cm, 9–9.6 m).
+- A wall doesn't need to reach the schach (גוד אסיק). Only the gap from the ground must be under 3 tefachim; never require a limit on the gap above the wall.
+- Outside the sukkah: fruit, water and juice without limit, and a little meat, fish or cheese. A satisfying meal of them, bread, or more than an egg's volume of mezonot requires the sukkah.

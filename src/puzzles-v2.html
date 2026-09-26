@@ -58,7 +58,7 @@ const sectionNames=[
 ];
 const puzzles=[
 {title:'גרמו לכך שיהיה ברור שהסוכה נבנתה לשם המצווה.',sub:'אפשר לנסות להזיז ולגרור כל דבר שרואים.',h:['חפשו משהו בסצנה שמשתנה עם הזמן.','אותה סוכה יכולה לקבל משמעות אחרת בחודש אחר.','נסו להסיר את דפי לוח השנה בזה אחר זה.']},
-{title:'הסוכה הזאת אינה עוברת את הבדיקה.',sub:'תקנו את הבעיה בתרשים.',h:['מה עוד אפשר להזיז?','רווח קטן משלושה טפחים (24 ס״מ) נחשב סתום — "לבוד".','גררו את הדופן האחורית למטה, קרוב יותר לקרקע.']},
+{title:'הסוכה הזאת אינה עוברת את הבדיקה.',sub:'תקנו את הבעיה בתרשים.',h:['מה עוד אפשר להזיז?','רווח קטן משלושה טפחים (כ-22–24 ס״מ) נחשב סתום — "לבוד". הרווח שמעל הדופן אינו משנה.','גררו את הדופן האחורית למטה, קרוב יותר לקרקע.']},
 {title:'גם הסוכה הזאת אינה כשרה.',sub:'',h:['יש בסכך כמה רווחים ברורים.','אחד מהחפצים מתאים בדיוק לחומר שכבר נמצא על הגג.','הוסיפו שלבי סכך עד שהצל יהיה רב מהשמש — יותר מחצי.']},
 {title:'הסוכה נראית גמורה — אבל עדיין פסולה.',sub:'תקנו את אופן הבנייה.',h:['הבעיה אינה בחומרים. הבעיה היא בסדר.','קודם העמידו את שלוש הדפנות. אחר כך עדיין צריך לעשות משהו עם מה שמעליהן.','אחרי שכל שלוש הדפנות עומדות, הרימו את הסכך והניחו אותו מחדש.']},
 {title:'מיקום בעייתי',sub:'אגודת הלולב כמעט נכונה.',h:['אל תאריכו את הלולב.','המדידה היא יחסית.','הנמיכו את ההדסים והערבות.']},
@@ -317,8 +317,8 @@ function p2(){
   groundBand(svg,geo.groundFront);
 
   // The rear panel begins 35 cm above the ground. It is kosher once the gap from the ground is
-  // under 3 tefachim (24 cm, lavud). The gap up to the schach doesn't matter: a wall 10 tefachim
-  // tall is kosher even if it doesn't reach the schach (gud asik), so that gap is shown for information only.
+  // under 3 tefachim (22-24 cm for a tefach of 7.5-8 cm; lavud). The gap up to the schach doesn't matter at all:
+  // a wall 10 tefachim tall is kosher even if it doesn't reach the schach (gud asik), so that gap isn't measured.
   const LAVUD_CM=24,startBottomCm=35,startTopCm=5,totalCm=startBottomCm+startTopCm;
   const gapPx=84,pxPerCm=gapPx/startBottomCm,maxOff=gapPx;
   const wallLayer=g(svg);drawPerspectiveWall(wallLayer,wallPoints(geo,'left'));drawPerspectiveWall(wallLayer,wallPoints(geo,'right'));
@@ -340,9 +340,7 @@ function p2(){
     clearMeasure();
     const {bottom,top}=gapValues(off);
     const bottomY=geo.groundBack-gapPx+off,groundY=geo.groundBack;
-    const topY=geo.wall.blTop.y+off,roofY=geo.roof.bl.y;
     arrow(bottomY,groundY,bottom.toFixed(1)+' ס״מ','פער מהקרקע',bottom<LAVUD_CM);
-    arrow(roofY,topY,top.toFixed(1)+' ס״מ','פער מהסכך (לא פוסל)',null);
   }
   renderMeasure();
 
@@ -534,10 +532,10 @@ function p6(){
   const lev=seatedPerson(735,282,'#7a6649');
   rect(lev,682,373,112,12,'#9e6a3d',{rx:5,stroke:'#293a34','stroke-width':4});S('circle',{cx:738,cy:367,r:12,fill:'#fff8e7',stroke:'#293a34','stroke-width':3},lev);pill(735,247,'נכנס בגלל הגשם, מסיים בבית',184);
 
-  // Yehuda: fruit and meat outside, correctly.
+  // Yehuda: fruit and a little meat outside, correctly (a full meal of meat would need the sukkah).
   const yeh=standPerson(915,292,'#6c7f4d');
   S('circle',{cx:866,cy:370,r:11,fill:'#cf4b38',stroke:'#293a34','stroke-width':3},yeh);
-  S('path',{d:'M948 365l36 15M965 372l13-18',stroke:'#865a38','stroke-width':7,'stroke-linecap':'round'},yeh);pill(915,252,'פירות ובשר',110);
+  S('path',{d:'M948 365l36 15M965 372l13-18',stroke:'#865a38','stroke-width':7,'stroke-linecap':'round'},yeh);pill(915,252,'פירות ומעט בשר',128);
 
   // The people are red herrings: they can be tugged, but snap back.
   [reu,shi,lev,yeh].forEach(draggableDecoy);
