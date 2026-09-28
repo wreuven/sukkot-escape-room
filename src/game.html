@@ -476,9 +476,9 @@
                     <label class="block text-xs font-bold text-gray-200 mb-2">1. מדוע נקבע חג הסוכות דווקא בחודש תשרי ולא בניסן, שהרי ענני הכבוד הקיפו את בני ישראל ביציאת מצרים?</label>
                     <select id="st1_q1" class="w-full bg-sukkot-900 border border-gray-700 text-gray-200 text-xs rounded-xl p-3 focus:border-amber-500 focus:outline-none">
                         <option value="">-- בחר פסיקה הלכתית --</option>
-                        <option value="CORRECT">בניסן יוצאים לשדות ודרך העולם לעשות סוכות לצל, ולכן בתשרי ניכר שעושים לשם מצווה ולא לנוחות</option>
-                        <option value="W1">ענני הכבוד נעלמו בחטא העגל והחזירם משה בתשרי בעת הציווי על המשכן</option>
+                        <option value="W1">מפני שענני הכבוד הגנו על ישראל מחודש תשרי ועד ניסן, כי בתקופת החורף צריך יותר הגנה</option>
                         <option value="W2">מפני שהיושב בסוכה בניסן חייב בקרבן חגיגה, ובתשרי רק בניסוך המים</option>
+                        <option value="CORRECT">בניסן יוצאים לשדות ודרך העולם לעשות סוכות לצל, ולכן בתשרי ניכר שעושים לשם מצווה ולא לנוחות</option>
                     </select>
                 </div>
 
@@ -487,8 +487,8 @@
                     <label class="block text-xs font-bold text-gray-200 mb-2">2. לפי הכלל ההלכתי 'תשבו כעין תדורו' (פרק א'), מהו היחס הנדרש מן האדם כלפי סוכתו?</label>
                     <select id="st1_q2" class="w-full bg-sukkot-900 border border-gray-700 text-gray-200 text-xs rounded-xl p-3 focus:border-amber-500 focus:outline-none">
                         <option value="">-- בחר פסיקה הלכתית --</option>
-                        <option value="W1">להתנהג בה בקדושת בית כנסת ואסור להכניס בה תשמישי חול כלל</option>
                         <option value="CORRECT">להכניס לתוכה כלים נאים ולאכול ולשון בה כשם שהוא דר בביתו בכל ימות השנה</option>
+                        <option value="W1">להתנהג בה בקדושת בית כנסת ואסור להכניס בה תשמישי חול כלל</option>
                         <option value="W2">לאכול בה רק סעודות קבע של פת, ואת שאר הצרכים לעשות בבית</option>
                     </select>
                 </div>
@@ -510,8 +510,8 @@
                     <select id="st1_q4" class="w-full bg-sukkot-900 border border-gray-700 text-gray-200 text-xs rounded-xl p-3 focus:border-amber-500 focus:outline-none">
                         <option value="">-- בחר פסיקה הלכתית --</option>
                         <option value="W1">מצוות השמחה בסוכות היא מדרבנן בלבד, ונלמדת משמחת בית השואבה במקדש</option>
-                        <option value="CORRECT">חובת השמחה נאמרה בו שלוש פעמים בתורה והוא נקרא 'זמן שמחתנו'</option>
                         <option value="W2">זו המצווה היחידה שבה יש חובה מן התורה לאכול סעודת פת בכל אחד משבעת הימים</option>
+                        <option value="CORRECT">חובת השמחה נאמרה בו שלוש פעמים בתורה והוא נקרא 'זמן שמחתנו'</option>
                     </select>
                 </div>
             </div>
@@ -522,7 +522,8 @@
                 <div id="st1_revealed_letters" class="flex justify-center gap-3 font-mono text-2xl font-black text-amber-400">
                     <!-- Loaded dynamically -->
                 </div>
-                <div class="mt-4 max-w-xs mx-auto">
+                <span class="text-sm text-amber-200 font-bold block mt-3">סדר את האותיות למילת קוד שקשורה לסוכות כדי לעבור לשלב הבא</span>
+                <div class="mt-3 max-w-xs mx-auto">
                     <input type="text" id="st1_code_input" oninput="autoCheckCode(1)" placeholder="הקלידו את מילת הקוד..." class="w-full text-center bg-sukkot-950 border-2 border-amber-500 text-white font-bold rounded-xl px-4 py-2 text-sm focus:outline-none">
                 </div>
             </div>
@@ -549,7 +550,7 @@
                 <!-- Height Slider -->
                 <div class="bg-sukkot-950/80 p-4 rounded-2xl border border-gray-800">
                     <div class="flex justify-between text-xs font-bold text-gray-200 mb-2">
-                        <span>1. מה גובה הדפנות המינימלי בסנטימטרים (10 טפחים)?</span>
+                        <span>1. מה גובה הדפנות המינימלי בסנטימטרים?</span>
                         <span id="st2_val_h" class="text-amber-400 font-mono whitespace-nowrap shrink-0">50 ס"מ</span>
                     </div>
                     <input type="range" min="40" max="120" step="5" value="50" id="st2_slider_h" class="w-full h-8 accent-amber-500 custom-slider" oninput="document.getElementById('st2_val_h').innerText = this.value + ' ס&quot;מ'">
@@ -558,7 +559,7 @@
                 <!-- Gap (Labud) Slider -->
                 <div class="bg-sukkot-950/80 p-4 rounded-2xl border border-gray-800">
                     <div class="flex justify-between text-xs font-bold text-gray-200 mb-2">
-                        <span>2. מה הרווח המקסימלי המותר מהקרקע ועד לתחתית הדופן (פחות מ-3 טפחים – כ-22–24 ס"מ – לפי כללי לבוד)?</span>
+                        <span>2. מה הרווח המקסימלי המותר מהקרקע ועד לתחתית הדופן?</span>
                         <span id="st2_val_g" class="text-amber-400 font-mono whitespace-nowrap shrink-0">30 ס"מ</span>
                     </div>
                     <input type="range" min="10" max="40" step="1" value="30" id="st2_slider_g" class="w-full h-8 accent-amber-500 custom-slider" oninput="document.getElementById('st2_val_g').innerText = this.value + ' ס&quot;מ'">
@@ -567,7 +568,7 @@
                 <!-- Size Slider -->
                 <div class="bg-sukkot-950/80 p-4 rounded-2xl border border-gray-800">
                     <div class="flex justify-between text-xs font-bold text-gray-200 mb-2">
-                        <span>3. מה אורך ורוחב הסוכה הקטנה ביותר הכשרה בסנטימטרים (7x7 טפחים)?</span>
+                        <span>3. מה אורך ורוחב הסוכה הקטנה ביותר הכשרה בסנטימטרים?</span>
                         <span id="st2_val_size" class="text-amber-400 font-mono whitespace-nowrap shrink-0">40 ס"מ</span>
                     </div>
                     <input type="range" min="30" max="80" step="2" value="40" id="st2_slider_size" class="w-full h-8 accent-amber-500 custom-slider" oninput="document.getElementById('st2_val_size').innerText = this.value + ' ס&quot;מ'">
@@ -575,7 +576,7 @@
 
                 <!-- Max Height Selection -->
                 <div class="bg-sukkot-950/80 p-4 rounded-2xl border border-gray-800">
-                    <label class="block text-xs font-bold text-gray-200 mb-2">4. מהו הגובה המקסימלי המותר לסוכה מן התורה (20 אמה)?</label>
+                    <label class="block text-xs font-bold text-gray-200 mb-2">4. מהו הגובה המקסימלי המותר לסוכה מן התורה?</label>
                     <select id="st2_dofan_select" class="w-full bg-sukkot-900 border border-gray-700 text-gray-200 text-xs rounded-xl p-3 focus:border-amber-500 focus:outline-none">
                         <option value="">-- בחר גובה מקסימלי --</option>
                         <option value="W1">500 סנטימטרים (5 מטרים)</option>
@@ -591,7 +592,8 @@
                 <div id="st2_revealed_letters" class="flex justify-center gap-3 font-mono text-2xl font-black text-amber-400">
                     <!-- Loaded dynamically -->
                 </div>
-                <div class="mt-4 max-w-xs mx-auto">
+                <span class="text-sm text-amber-200 font-bold block mt-3">סדר את האותיות למילת קוד שקשורה לסוכות כדי לעבור לשלב הבא</span>
+                <div class="mt-3 max-w-xs mx-auto">
                     <input type="text" id="st2_code_input" oninput="autoCheckCode(2)" placeholder="הקלידו את המונח ההלכתי..." class="w-full text-center bg-sukkot-950 border-2 border-amber-500 text-white font-bold rounded-xl px-4 py-2 text-sm focus:outline-none">
                 </div>
             </div>
@@ -657,10 +659,10 @@
                     <i id="icon_m5" class="fa-regular fa-circle text-gray-500 text-lg"></i>
                 </button>
 
-                <!-- Mat 6: Metal Wire Mesh -->
+                <!-- Mat 6: Planks of a broken bench (INVALID: שברי כלים, PH 2:2) -->
                 <button onclick="toggleMaterial('m6')" id="mat_m6" class="p-4 bg-sukkot-900 border border-gray-800 rounded-2xl text-right transition-all flex items-center justify-between">
                     <div>
-                        <span class="font-bold text-xs text-white block">רשת מתכת ואלומיניום</span>
+                        <span class="font-bold text-xs text-white block">ספסל עץ ישן שהתפרק לקרשים</span>
                     </div>
                     <i id="icon_m6" class="fa-regular fa-circle text-gray-500 text-lg"></i>
                 </button>
@@ -749,7 +751,7 @@
 
                     <!-- Hazard 5: Tied Bundle Schach (INVALID) -->
                     <button onclick="toggleHazard('h_bundle')" id="haz_h_bundle" class="p-3.5 bg-sukkot-900 hover:bg-sukkot-800 rounded-2xl border border-gray-800 text-right transition-all flex flex-col justify-between">
-                        <span class="font-bold text-xs text-white mb-2">5. חבילת ענפים קשורה מראש להנחה</span>
+                        <span class="font-bold text-xs text-white mb-2">5. חבילת קני במבוק קשורה</span>
                         <span id="hazBadge_h_bundle" class="px-2 py-0.5 bg-gray-800 text-gray-400 text-[10px] font-bold rounded w-fit">בחן מקרה</span>
                     </button>
 
@@ -878,7 +880,7 @@
                 <!-- Case 2 -->
                 <div class="bg-sukkot-950/80 p-4 rounded-2xl border border-gray-800">
                     <label class="block text-xs font-bold text-gray-200 mb-2">
-                        <span class="text-amber-400">מקרה 2:</span> שמעון היה עייף מאוד באמצע הלימוד בצהרי החג, ורצה לנום 10 דקות בלבד על הכורסה בסלון הבית לפני שיחזור לסוכה. האם הדבר מותר?
+                        <span class="text-amber-400">מקרה 2:</span> שמעון היה עייף מאוד באמצע הלימוד בצהרי החג, ורצה לישון שינה קצרצרה ל-10 דקות בלבד על הכורסה בסלון הבית לפני שיחזור לסוכה. האם הדבר מותר?
                     </label>
                     <select id="dil_2" class="w-full bg-sukkot-900 border border-gray-700 text-gray-200 text-xs rounded-xl p-3 focus:border-amber-500 focus:outline-none" onchange="updateLockDisplay()">
                         <option value="">-- בחר אות גימטריה לפסיקה --</option>
@@ -1312,7 +1314,23 @@
             startTimer();
         }
 
+        // "Loading…" strip under the success message, so the 5-second pause doesn't look like the game froze
+        function showLoading(afterEl, msg, ms = 5000) {
+            hideLoading();
+            const box = document.createElement('div');
+            box.id = 'stageLoader';
+            box.className = 'mb-4 p-3 rounded-xl bg-sukkot-950/80 border border-amber-500/40 text-center';
+            box.innerHTML = `<div class="flex items-center justify-center gap-2 text-sm font-bold text-amber-300"><i class="fa-solid fa-spinner fa-spin"></i><span>${msg}</span></div>
+                <div class="mt-2 h-1.5 rounded-full bg-gray-800 overflow-hidden"><div class="h-full bg-amber-400 rounded-full" style="width:0;transition:width ${ms}ms linear"></div></div>`;
+            afterEl.insertAdjacentElement('afterend', box);
+            requestAnimationFrame(() => requestAnimationFrame(() => { box.querySelector('.bg-amber-400').style.width = '100%'; }));
+        }
+        function hideLoading() {
+            document.getElementById('stageLoader')?.remove();
+        }
+
         function showStage(stageNum) {
+            hideLoading();
             for (let i = 1; i <= 6; i++) {
                 const el = document.getElementById(`stage${i}`);
                 if (el) el.classList.add('hidden');
@@ -1477,6 +1495,7 @@
                     playSound('success');
                     feedback.innerText = "קוד המילה 'אסיף' נכון! עוברים לשלב 2!";
                     markCodeCorrect('st1_code_input');
+                    showLoading(feedback, 'טוען את שלב 2...');
                     setTimeout(() => {
                         currentStage = 2;
                         showStage(2);
@@ -1531,6 +1550,7 @@
                     playSound('success');
                     feedback.innerText = "הקוד 'לבוד' פוענח בהצלחה! הכותלים נעולים. עוברים לשלב 3!";
                     markCodeCorrect('st2_code_input');
+                    showLoading(feedback, 'טוען את שלב 3...');
                     setTimeout(() => {
                         currentStage = 3;
                         showStage(3);
@@ -1581,6 +1601,7 @@
                 feedback.innerText = "הסכך שנפרש כשר לכתחילה! צילתה מרובה מחמתה והכוכבים נראים דרכו. עוברים לשלב 4!";
                 feedback.classList.remove('hidden');
 
+                showLoading(feedback, 'טוען את שלב 4...');
                 setTimeout(() => {
                     currentStage = 4;
                     showStage(4);
@@ -1633,6 +1654,7 @@
                 feedback.innerText = "סדר הבנייה תעשה ולא מן העשוי אושר, וכל המוקשים נטרלו בהצלחה! עוברים לשלב 5!";
                 feedback.classList.remove('hidden');
 
+                showLoading(feedback, 'טוען את שלב 5...');
                 setTimeout(() => {
                     currentStage = 5;
                     showStage(5);
@@ -1773,6 +1795,7 @@
                 feedback.innerText = "כל התאמות ארבעת המינים מדויקות להפליא! עוברים לשלב 6!";
                 feedback.classList.remove('hidden');
 
+                showLoading(feedback, 'טוען את שלב 6...');
                 setTimeout(() => {
                     feedback.classList.add('hidden');
                     currentStage = 6;
@@ -1781,13 +1804,8 @@
             } else {
                 playSound('error');
                 feedback.className = "mb-4 p-3 rounded-xl text-xs font-bold text-center bg-red-500/20 text-red-300 border border-red-500/40";
-                feedback.innerText = "חלק מההתאמות שגויות! שימו לב שישנה תשובה אחת מיותרת בעמודה ב'. הקישורים אופסו.";
+                feedback.innerText = "חלק מההתאמות שגויות! שימו לב שישנה תשובה אחת מיותרת בעמודה ב'. תקנו את החיבורים ונסו שוב.";
                 feedback.classList.remove('hidden');
-
-                userMatches = {};
-                selectedCardA = null;
-                selectedCardB = null;
-                renderMatches();
             }
         }
 
@@ -1830,9 +1848,11 @@
                     scrollToProgress();
                     startConfetti();
 
+                    showLoading(feedback, 'טוען את מסך הסיום...');
                     setTimeout(() => {
                         document.getElementById('stage6').classList.add('hidden');
                         document.getElementById('victoryScreen').classList.remove('hidden');
+                        hideLoading();
 
                         document.getElementById('finalTime').innerText = document.getElementById('gameTimer').innerText;
                         document.getElementById('finalHints').innerText = hintCount;
@@ -1881,7 +1901,7 @@
             ],
             4: [
                 "חשבו מה צריך לעמוד קודם – מה שמחזיק את הסכך, או הסכך עצמו?",
-                "הסכך צריך להיות תחת כיפת השמים בלבד – מה עלול להפריד בינו לבין השמים? ומה דין ענפים שהונחו כשהם קשורים בחבילה?",
+                "הסכך צריך להיות תחת כיפת השמים בלבד – מה עלול להפריד בינו לבין השמים? ומה דין קנים שהונחו כשהם קשורים בחבילה?",
                 "סדר הבנייה: דפנות ואחר כך סכך. הפסולים: תחת אילן, תחת גג מרפסת, חבילה קשורה. דופן מאילן, סכך שרואים דרכו כוכבים וקישוטים סמוכים לסכך – כשרים."
             ],
             5: [
@@ -1934,8 +1954,8 @@
 
         // HALAKHA FAQ (pre-written answers, matched by keyword) & BONUS QUIZ
         const faqEntries = [
-            { topic: "סכך", keys: ["סכך", "מחצלת", "במבוק", "קרש", "ברזנט", "מתכת"],
-              answer: "סכך כשר צריך להיות גידולו מן הארץ, תלוש מן הקרקע, ואינו מקבל טומאה – כמו ענפים, כפות תמרים וקני במבוק. קרשים ברוחב 4 טפחים פסולים מגזירת תקרה. מחצלת כשרה רק אם נעשתה לשם סכך, שמחצלת שנעשתה לשכיבה מקבלת טומאה." },
+            { topic: "סכך", keys: ["סכך", "מחצלת", "במבוק", "קרש", "ברזנט", "מתכת", "ספסל", "שברי"],
+              answer: "סכך כשר צריך להיות גידולו מן הארץ, תלוש מן הקרקע, ואינו מקבל טומאה – כמו ענפים, כפות תמרים וקני במבוק. קרשים ברוחב 4 טפחים פסולים מגזירת תקרה. מחצלת כשרה רק אם נעשתה לשם סכך, שמחצלת שנעשתה לשכיבה מקבלת טומאה. גם שברי כלים ורהיטים, כמו קרשים של ספסל שהתפרק, פסולים לסכך מדרבנן, שמא יסככו בכלים שלמים." },
             { topic: "צל וכוכבים", keys: ["צל", "כוכב", "חמה", "צילתה"],
               answer: "הסכך צריך להיות 'צילתה מרובה מחמתה' – הצל רב על השמש. לכתחילה יש להקפיד שלא יהיה עבה מדי, כדי שייראו הכוכבים דרכו." },
             { topic: "דפנות ולבוד", keys: ["דופן", "דפנות", "לבוד", "מחיצה", "גובה", "גודל", "טפח", "אמה"],
@@ -1943,7 +1963,7 @@
             { topic: "סדר הבנייה", keys: ["סדר", "תעשה", "העשוי", "לבנות", "בנייה"],
               answer: "'תעשה ולא מן העשוי' – יש לעשות את הסוכה בפעולה של הכשר, ולא שתיעשה כשרה מאליה. צריך להעמיד תחילה את הדפנות ואחר כך להניח את הסכך; מי שהקדים את הסכך – לדעת פוסקים רבים הסוכה פסולה." },
             { topic: "אילן וגג", keys: ["אילן", "עץ", "גג", "מרפסת", "חבילה"],
-              answer: "סוכה צריכה להיות תחת כיפת השמים – סוכה תחת אילן או תחת גג פסולה. ענפים שהונחו כשהם קשורים בחבילה – פסולים (גזירת חבילה). אפשר להשתמש באילן כדופן, ובלבד שהדופן עומדת ברוח מצויה." },
+              answer: "סוכה צריכה להיות תחת כיפת השמים – סוכה תחת אילן או תחת גג פסולה. ענפים או קנים שהונחו כשהם קשורים בחבילה – פסולים (גזירת חבילה). אפשר להשתמש באילן כדופן, ובלבד שהדופן עומדת ברוח מצויה." },
             { topic: "נשים", keys: ["נשים", "אישה", "אשה", "בנות"],
               answer: "נשים פטורות ממצוות סוכה, שהיא מצוות עשה שהזמן גרמה. אשכנזיות (וחלק מהספרדיות) שיושבות בסוכה מברכות 'לישב בסוכה', ולמנהג רוב הספרדיות יושבות בלי ברכה." },
             { topic: "אכילה", keys: ["אכילה", "לאכול", "מזונות", "עוגה", "פת", "לחם", "פירות", "בשר", "דגים", "כביצה", "שתייה"],

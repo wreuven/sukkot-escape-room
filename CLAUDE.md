@@ -1,11 +1,13 @@
 # Sukkot games – working notes for Claude
 
-Two Hebrew (RTL) Sukkot games for ages 12–18, published with GitHub Pages and embedded in the owner's Google Site.
+Hebrew (RTL) Sukkot games for ages 12–18, published with GitHub Pages and embedded in the owner's Google Site.
 
 ## Layout
 - `src/game.html` – game 1, "צופן הסוכה" escape room (6 stages, based on *Peninei Halakha – Sukkot* ch. 1–5). Its victory screen has a "למשחק השני" button that opens game 2.
 - `src/puzzles-v2.html` – game 2, "חידות חשיבה" drag-and-drop puzzles. This is the version players get.
 - `src/puzzles.html` – the original version of game 2. Keep it unchanged unless asked.
+- `src/brain.html` – game 3, "חידות מוח" Brain-Test-style puzzles. Still under the owner's review, so it's **not linked** from game 2 yet. Only add the link when the owner asks.
+- The four species are drawn by the shared `drawArbaMinim()` in puzzles-v2 and brain: closed lulav, hadassim on the right, aravot on the left, a small woven ring about a quarter of the way up that binds them.
 - `docs/*.html` – the published pages: the same games, **encrypted**, behind a Hebrew password screen.
 - `tools/encrypt_game.py` – rebuilds every `docs/` page from `src/` (AES-256-GCM, PBKDF2-SHA256).
 
